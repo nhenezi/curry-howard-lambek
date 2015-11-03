@@ -1,0 +1,6 @@
+*.aux
+*.log
+*.pdf
+*.toc
+auto
+input_section/auto
