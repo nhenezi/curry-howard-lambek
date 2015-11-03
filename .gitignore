@@ -2,5 +2,6 @@
 *.log
 *.pdf
 *.toc
+*.out
 auto
 input_section/auto
