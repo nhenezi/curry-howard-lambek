@@ -1,0 +1,60 @@
+\section{Kategorije redefinirane}
+
+\begin{definition}
+  Uređeni par $(A, V)$, gdje je $A$ proizvoljan skup, a $V \subseteq A \times A$ nazivamo usmjereni graf. Za $f \in V$ pišemo još i $f : A \implies B$ ili $A \overset{f}{\implies} B$.
+\end{definition}
+
+\begin{definition}
+  \emph{Dedukcijski graf} je usmjereni graf $\alpha = (A_0, A_1)$ za koji vrijedi:
+  \begin{enumerate}
+    \item Ako $f : A \implies B$, $g: B \implies C$ tada postoji $g \circ f : A \implies C$. $g \circ f$ zovemo kompozicijom $f$ i $g$.
+    \item Za svaki $A \in A_0$ postoji $id^A : A \implies A$.
+  \end{enumerate}
+
+  Elemente skupa $A_0$ nazivamo \emph{objekti}, a elemente skupa $A_a$ \emph{strelice}. Posebno, strelicu $id^A$ nazivamo \emph{strelica identitete}. Za strelicu $f : A \implies B$ kažemo da je $A$ \emph{domena}, a $B$ \emph{kodomena} strelice f.
+\end{definition}
+
+\begin{definition}
+  Kategorija je dedukcijski graf $\alpha$ takav da:
+  \begin{enumerate}
+    \item Za svaku strelicu $F : A \implies B$ vrijedi $f \circ id_A = f$, $id_B \circ f = f$
+    \item Za sve strelice $f : A \implies B$, $g : B \implies C$, $h : C \implies D$ vrijedi: $h \circ (g \circ f) = (h \circ g) \circ f$.
+  \end{enumerate}
+\end{definition}
+
+
+\begin{definition}
+  \emph{Tci-dedukcijski graf} (truth, conjuction, implication) ili \emph{pozitivan dedukcijski graph} je uređena trojka $(A_0, A_1, \top)$, gdje je $(A_0, A_1)$ dedukcijski graf, a $\top \in A_0$, koji je zatvoren na binarne operacije $\land$ i $\to$, te vrijedi:
+    \begin{enumerate}
+      \item $tr^A : A \implies \top$ 
+      \item $\pi^{A, B}_0 : A \land B \implies A$, $\pi^{A, B}_1 : A \land B \implies B$ i ako $f : C \implies A$, $g : C \implies B$ tada $<f, g> : C \implies A \land B$.
+      \item $ev^{A, B} : (A \implies B) \land A \implies B$ i ako $h : C \land B \implies A$ then $cur(h): C \implies B \implies A$
+    \end{enumerate}
+\end{definition}
+
+\begin{definition}
+  Za dva objekta $A, B$ u kategoriji $alpha = (A_0, A_1)$ kazemo da su izomorfni, ako postoje strelice: $f : A \implies B$, $g : B -> A$ takve da $g \circ f = id^A$, $f \circ g = id^B$. Pisemo $A znak B$ i kazemo da su $A i B$ \emph{izomorfni}
+\end{definition}
+
+\begin{definition}
+  Definicija CCC
+\end{definition}
+
+\begin{lema}
+  CCC jednakosti
+
+  \begin{equation*}
+  <f, g> \circ h = <f \circ h, g \circ h>
+  \end{equation*}
+  \begin{equation*}
+  ev<cur(f), g> = f<id, g> \\
+  \end{equation*}
+  \begin{equation*}
+  cur(f) \circ g' = cur (f \circ <g' \circ \pi_0, \pi_1> \\
+  \end{equation*}
+\end{lema}
+
+\begin{lema}
+  bijekcija, $X(A, B)$ i $X(T, A \to B)$
+\end{lema}
+

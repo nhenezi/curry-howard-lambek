@@ -1,72 +1,224 @@
-\section{...}
+U ovom poglavlju dajemo pregled pojmova iz lamda racuna cije je razumjevanje nuzno kako bi se moglo definirati prosirenje iste, pomocu koje se uspostavlja bijekcija sa zatvorenim kartezijevim kategorijama (CCC). Definiramo pojmove kao stu su: jednostavne tipovi, termovi za lambda racun, supsitutcija, slobodne varijable itd.
+
+\begin{definition}[Jednostavni tipovi]
+  Neka je $T$ prebrojiv skup i $\to \, \in T \times T$.
+    Ako za svaki $A, B \in T$, vrijedi $A \to B \in T$, tada kažemo da je $T_{\to}$ skup jednostavnih tipova (eng. simple types). Elemente skupa $T$ označavamo $P_0, P_1, P_2, ..$ i zovemo \emph{tipovske variable} (eng. type variables)
+\end{definition}
+
+
+
+\begin{definition}[Termovi jednostavno tipiziranog lambda računa $T_\to$.]
+  Neka je $T_\to$ skup jednostavnih tipova. Tada možemo konstruirati termove jednostavnog tipiziranog lambda računa $T_\to$ na idući način:
+  \begin{itemize}
+    \item za svaki $A \in T_\to$ postoji prebrojivo variabli tipa A: $x^A, y^A, z^A$, a svaka varijabla tipa $A$ je ujedno i term tipa $A$
+    \item ako su $t^{A \to B}$ i $s^A$ termovi tipa $A \to B$ i $A$, tada $App(t^{A to B}, S^A)$ je term tipa $B$
+    \item ako je $t^B$ term tipa B i $x^A$ variabla tipa A, tada $(\lambda x^A . t^B)^{A \to B}$ je term tipa ${A \to B}$
+  \end{itemize}
+\end{definition}
+
+\begin{definition}[Slobodne varijable]
+  Skup $FV(t)$ slobodnih varijabli u $t$ je definiran rekurzivno:
+  \begin{itemize}
+    \item $FV(x : A) := x : A$
+    \item $FV(ts) := FV(t) \cap FV(s)$
+    \item $FV(\lambda x . t) := FV(t) \ {x}$
+  \end{itemize}
+\end{definition}
+
+\begin{definition}[Substitucija]
+  Rekurzivno definiramo \emph{supstituciju terma $s$ za varijablu $x$ u termu $t$}:
+  \begin{itemize}
+    \item $x[x/s] := s$
+    \item $y[x/s] := y$ za $y \not\equiv x$
+    \item $(t_1t_2)[x/s] := t_1[x/s]t_2[x/s]$
+    \item $(\lambda x . t)[x / s] := \lambda x . t$
+    \item $(\lambda y . t)[x / s] := \lambda y . t[x/s]$ za $y \not\equiv x$
+  \end{itemize}
+\end{definition}
+
+\begin{primjer}
+  Jedan primjer koji bi obuhvatio  primjere slobodnih varijabli i susptitucije
+\end{primjer}
+
+\begin{definition}[Konverzija]
+  Neka je $T$ skup termova i $conv \in T \times T$ binarna relacija. Ako za $t, s \in T$ vrijedi $t\, conv\, s$ tada kazemo da $t$ konvertira u $s$, gdje $t$ zovemo $redeksom$ (eng. redex), $s$  ? (eng. conversum) od $t$. Zamjenu redexa sa conversumom zovemo \emph{konverzijom $t$ u $s$}. Pisemo $t \prec_1 s$ ako je $s$ dobiven od $t$ u jednoj konverziji. Relaciju $\prec$ definiramo kao tranzitivno zatvorenje relacije $\prec_1$, a relaciju $\preceq$ kao tranzitivno i refleksivno zatvorenje $\prec$.
+\end{definition}
+
+Posebno, spominjemo dvije vrste konverzija:
+\begin{itemize}
+  \item $\beta-$konverzija: $(\lambda x^A . t^B) s^A$ $cont_\beta$ $t^B[x^a/s^A]$
+  \item $\eta-$konverzija: $\lambda x^A . t x $ $cont_\eta$ $t$ $(x \not\in FV(t))$
+\end{itemize} 
+
+\begin{primjer}
+  primjer $\beta$ konverzije
+\end{primjer}
+
+\begin{definition}[Jednakost po konverziji]
+  Neka je T skup termova i $=_{conv} \in T \times T$. Kažemo \emph{$t$ je jednak po konverziji $s$} i pišemo $t =_{conv} s$ ako ako postoji niz $t_o, t_1, t_2, .., t_n$,. takav da
+  \begin{itemize}
+    \item $t_0 \equiv t$
+    \item $t_n \equiv s$
+    \item $t_i \prec t_{i+1}$ ili $t_i \succ t_{i+1}$ za $i \in {0, 1, .., n}$
+  \end{itemize}
+\end{definition}
+
+\begin{primjer}
+  Primjer termova koju nisu jednaki, ali su jednaki po konverziji
+\end{primjer}
+
+\begin{definition}[Normalna forma]
+  Za term $t \in T$ kazemo da je u \emph{normalnoj formi} ako ne sadrzi redeks. $t$ ima normalnu formu ako vrijedi $t \succeq s$ i $s$ je u normalnoj formi.
+\end{definition}
+
+\begin{primjer}
+  Primjer terma i normalne forme. Bitnost normalne forme?
+\end{primjer}
+
+\begin{definition}[Konfluentne relacije / Church-Rosser]
+  Za relaciju $R$ kazemo da je \emph{konfluenta} (eng. confluent) ako za svaki $t_0, t_1, t_2 \in T$ za koji vrijedi $t_0 R t_1$ i $t_0 R T_2$, postoji $t_3 \in T$ takav da $t_1 R t_3$ i $t_2 R t_3$.
+\end{definition}
+
+
+\begin{teorem}
+  Ako je $\preceq$ konfluentna relacija, tada
+  \begin{center}
+    $t = t'$ ako i samo ako postoji term $t''$ takav da $t \preceq t''$ i $t' \preceq t''$
+  \end{center}
+\end{teorem}
+
+\begin{definition}[jednostavni tipizirani lambda racun]
+  Neka je $\lambda_\to$ skup jednostavnih tipova. Definiramo aksiome $\lambda_\to$ racuna.
+  \begin{enumerate*}
+  
+  \item \begin{center}$t \succeq t$\end{center}
+
+  \item \begin{center}$(\lambda x^A . t ^B)s^A \succeq t^b [x^a / s^a]$\end{center}
+
+  \item  \begin{prooftree}
+      \AxiomC{$t \succeq s$}
+      \UnaryInfC{$rt \succeq rs$}
+    \end{prooftree}
+
+  \item
+    \begin{prooftree}
+      \AxiomC{$t \succeq s$}
+      \UnaryInfC{$tr \succeq sr$}
+    \end{prooftree}
+
+  \item
+    \begin{prooftree}
+      \AxiomC{$t \succeq s$}
+      \UnaryInfC{$\lambda x . t \succeq \lambda x .s $}
+    \end{prooftree}
+
+  \item
+    \begin{prooftree}
+      \AxiomC{$t \succeq s$}
+      \AxiomC{$s \succeq r$}
+      \BinaryInfC{$t \succeq r$}
+    \end{prooftree}
+
+
+  \item
+    \begin{prooftree}
+      \AxiomC{$t \succeq s$}
+      \UnaryInfC{$t = s$}
+    \end{prooftree}
+
+  \item
+    \begin{prooftree}
+      \AxiomC{$t = s$}
+      \UnaryInfC{$s = t$}
+    \end{prooftree}
+
+  \item
+    \begin{prooftree}
+      \AxiomC{$t = s$}
+      \AxiomC{$s = r$}
+      \BinaryInfC{$t = r$}
+    \end{prooftree}
+
+  \end{enumerate*}
+\end{definition}
+
+
+\begin{definition}[Termovi tipizirane kombinatorne logike $CL_\to$]
+  Induktivno definiramo termove kao i za $\lambda_\to$:
+  \begin{itemize}
+    \item za svaki $A \in T_\to$ postoji prebrojivo variabli tipa A: $x^A, y^A, z^A$, a svaka varijabla tipa $A$ je ujedno i term tipa $A$
+    \item Za sve $A, B, C \in T$ postoje konstatni termovi (konstante)
+      \begin{equation*}
+        k^{A, B} \in A \to (B \to A)
+      \end{equation*}
+      \begin{equation*}
+        s^{A, B, C} \in (A \to (B \to C)) \to ((A \to B) \to (A \to C))
+      \end{equation*}
+    \item ako je $t^{A \to B}$ i $s^A$ tada je $App(t^{A \to B}, s^a) ^B$ term tipa $B$
+  \end{itemize}
+\end{definition}
+
+
+\begin{definition}[tipizirana kombinatorna logike $CL_\to$]
+  Raspisati aksiome identicne kao i za $\lambda_\to$ nakon sto se prilagodi nekom citljivijem formatu (mozda u dva stupca?)
+\end{definition}
+\section{labda to ccc}
 
 \begin{definition}
-  Algebra
+  calculus $\lambda \eta_{\to \top \bot}$
 \end{definition}
+
 \begin{definition}
-  Schonfinkelova algebra
+  Kombinator, $\top$ kombinator
 \end{definition}
+
 \begin{definition}
-  Jednakost izmedu polinoma
+  A, B konjukcija prop varijabli.
+  $\xi_{AB}:A \implies B
 \end{definition}
+
+\begin{definition}
+  $\Theta, \Theta', \overline{\Theta}, \overline{\Theta'}$, $\xi_{\Theta, \Theta}$
+\end{definition}
+
+\begin{lema}
+  preslikavanje $r$, strelice iz ccc u tipizirane termove
+\end{lema}
+
+\begin{lema}
+  preslikavanje $\sigma$, tipizirani termovi u strelice u ccc
+\end{lema}
+
+\begin{lema}
+  preslikavanje $r$ cuva jednakost izmedu kombinatora
+\end{lema}
+
+\begin{lema}
+  preslikavanje $\sigma$ invarijantno na $\beta$ redukciju
+\end{lema}
+
+\begin{lema}
+  preslikavanje $\sigma$ cuda $\beta\eta$ jednakost
+\end{lema}
+
+
+\section{Coherence teorem}
+\begin{definition}
+  balansirana $\top \to$ formula
+\end{definition}
+
 \begin{teorem}
-  Svaki polinom u Schonfinkelovoj algebri se moze zapisati u obliku $f`x, x \in |A|$
+  Coherence teorem
 \end{teorem}
 
 \begin{definition}
-  Homomorfizam $h_x : A -> A[x]$, substitucijski homomorfizam (id)
+  2-sequent
 \end{definition}
-
-\begin{definition}
-  Curryeva algebra / kombinatorna logika
-\end{definition}
-\begin{definition}
-  Functional cmpleteness
-\end{definition}
-
 
 \begin{teorem}
-  Svaki polinom u Curryevoj algebri moze se jedinstveno zapisati u obliku $f`x, x \in |A|$
+  Coherence teorem za 2-sequente
 \end{teorem}
-\begin{koloral}
-  combinatorna logika = lambda racun
-\end{koloral}
 
 \begin{teorem}
-  Teorem o fiksnoj tocci za curryee algebre
+  Redukcija na 2-sequent
 \end{teorem}
-
-Problem ako je f negacija, motivacija za uvodjenje ``tipova''.
-
-\begin{definition}
-  Dodatni uvjet na relaciju $`$.
-
-  \begin{prooftree}
-    \AxiomC{$a \in A$}
-    \AxiomC{$f \in B \Leftarrow A$}
-    \BinaryInfC{$f ` a \in B$}
-  \end{prooftree}
-\end{definition}
-
-\begin{definition}
-  Tipizirana Schonfinkelov algebra
-\end{definition}
-
-\begin{definition}
-  Tipizirana Curryeva algebra
-\end{definition}
-
-\begin{definition}
-  Intutionistic propositional calculus
-\end{definition}
-
-\begin{definition}
-\end{definition}
-
-\begin{definition}
-  combinators = proofs
-\end{definition}
-
-
-
-

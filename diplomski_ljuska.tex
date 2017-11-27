@@ -22,6 +22,7 @@
 \newextarrow{\xbigtoto}{{20}{20}{20}{20}}
 {\bigRelbar\bigRelbar{\bigtwoarrowsleft\rightarrow\rightarrow}}
 
+\nonstopmode
 \definecolor{codegray}{gray}{0.9}
 \newcommand{\category}[1]{\textbf{\emph{#1}}}
 \newcommand{\codei}[1]{
@@ -69,13 +70,13 @@
 \numberwithin{Primjer}{chapter}
 \setcounter{Primjer}{1}
 \newcommand{\primjer}[1]{~\vskip 10pt
-{\footnotesize{
-\noindent
-{\textsl{Primjer \addtocounter{Primjer}{1} \thechapter.\arabic{Primjer} }}
-\vskip 5pt
-#1
-\vskip 10pt
-}}
+  {\footnotesize{
+      \noindent
+          {\textsl{Primjer \addtocounter{Primjer}{1} \thechapter.\arabic{Primjer} }}
+          \vskip 5pt
+          #1
+          \vskip 10pt
+  }}
 }
 %
 \newtheorem{definition}{Definicija}[chapter]
@@ -146,7 +147,12 @@
 %
 \input{chapters/teorija_kategorija}
 
-\chapter{From lambda c to CCC}
+\chapter{Kategorije redefinirane}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+\input{chapters/graph_ccc}
+
+\chapter{Osvrt na lambda racun}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 \input{chapters/lambek}
