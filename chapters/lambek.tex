@@ -8,10 +8,10 @@ U ovom poglavlju dajemo pregled pojmova iz lamda racuna cije je razumjevanje nuz
 
 
 \begin{definition}[Termovi jednostavno tipiziranog lambda računa $T_\to$.]
-  Neka je $T_\to$ skup jednostavnih tipova. Tada možemo konstruirati termove jednostavnog tipiziranog lambda računa $T_\to$ na idući način:
+  Neka je $T_\to$ skup jednostavnih tipova. Tada možemo konstruirati termove jednostavnog tipiziranog lambda računa $T_\to$ na slijedeći način:
   \begin{itemize}
     \item za svaki $A \in T_\to$ postoji prebrojivo variabli tipa A: $x^A, y^A, z^A$, a svaka varijabla tipa $A$ je ujedno i term tipa $A$
-    \item ako su $t^{A \to B}$ i $s^A$ termovi tipa $A \to B$ i $A$, tada $App(t^{A to B}, S^A)$ je term tipa $B$
+    \item ako su $t^{A \to B}$ i $s^A$ termovi tipa $A \to B$ i $A$, tada $App(t^{A \to B}, S^A)$ je term tipa $B$
     \item ako je $t^B$ term tipa B i $x^A$ variabla tipa A, tada $(\lambda x^A . t^B)^{A \to B}$ je term tipa ${A \to B}$
   \end{itemize}
 \end{definition}
@@ -23,9 +23,10 @@ U ovom poglavlju dajemo pregled pojmova iz lamda racuna cije je razumjevanje nuz
     \item $FV(ts) := FV(t) \cap FV(s)$
     \item $FV(\lambda x . t) := FV(t) \ {x}$
   \end{itemize}
+  Za varijabu $x$ kazemo da je \emph{slobodna varijabla} u $t$, ako je $x \in FV(t)$. U suprotnom kazemo da je $x$ \emph{zauzeta varijabla}.
 \end{definition}
 
-\begin{definition}[Substitucija]
+\begin{definition}[Supstitucija]
   Rekurzivno definiramo \emph{supstituciju terma $s$ za varijablu $x$ u termu $t$}:
   \begin{itemize}
     \item $x[x/s] := s$
@@ -37,22 +38,53 @@ U ovom poglavlju dajemo pregled pojmova iz lamda racuna cije je razumjevanje nuz
 \end{definition}
 
 \begin{primjer}
-  Jedan primjer koji bi obuhvatio  primjere slobodnih varijabli i susptitucije
+  Na primjeru $f := (\lambda x y . x y z) (x) (y)$ demonstriramo primjenu slobodnih varijabli i supsitutcije.
+  Radimo supsitutciju terma $a$ za varijablu $x$ u termu $f$.
+  \begin{align*}
+    f[x/a]  &= (\lambda x y . x y z) (x) (y) [x/a] \\
+            &= (\lambda x y . x y z)[x/a] (x)[x/a] (y) [x/a] \\ 
+            &= (\lambda x y . x y z ) (a) (y) \\ 
+  \end{align*}
+  Gdje je svaka jednakost dobivena direktnom primjenom definicije na prijasnju. Analogno, slijedeci definiciju, dobivamo i skup $FV(f)$ slobodnih varijabli u $f$.
+  \begin{align*}
+    FV(t) &= FV((\lambda x y . x y z) (x) (y)) \\
+          &= FV(\lambda x y . x y z) \cap FV(x) \cap FV(y) \\
+          &= (FV(x y z) \setminus \{x, y\}) \cup \{x\} \cup \{y\} \\
+          &= (FV(x) \cup FV(y) \cup FV(z) \setminus \{x, y\}) \cup \{x\} \cup \{y\} \\
+          &= ((\{x\} \cup \{y\} \cup \{z\}) \setminus \{x, y\}) \cup \{x\} \cup \{y\} \\
+          &= (\{x, y, z\}\setminus \{x, y\}) \cup \{x\} \cup \{y\} \\
+          &= \{z\} \cup \{x\} \cup \{y\} \\
+          &= \{x, y, z\}
+  \end{align*}
 \end{primjer}
 
+Gornjim primjerom imamo dva sintakticki razlicita terma, $ (\lambda x y . x y z) (x) (y)$ i  $(\lambda x y . x y z) (a) (y)$, no njihovo semanticko znacenje zelimo da bude identicno. Primjetimo takoder da
+\begin{center}
+$FV((\lambda x y . x y z) (a) (y)) = \{a, y, z\} \neq \{x, y, z\} = FV(f)$.
+\end{center}
+
+sto se kosi sa intuitivnom intuicijom slobodnih varijabli. U tu srvhu definiramo konverzije, posebno $\alpha$, $\beta$ i $\eta$ konverzije, koje mozemo promatrati kao zamjenu varijable, aplikaciju funkcije i micanje apstrakcije. 
+
 \begin{definition}[Konverzija]
-  Neka je $T$ skup termova i $conv \in T \times T$ binarna relacija. Ako za $t, s \in T$ vrijedi $t\, conv\, s$ tada kazemo da $t$ konvertira u $s$, gdje $t$ zovemo $redeksom$ (eng. redex), $s$  ? (eng. conversum) od $t$. Zamjenu redexa sa conversumom zovemo \emph{konverzijom $t$ u $s$}. Pisemo $t \prec_1 s$ ako je $s$ dobiven od $t$ u jednoj konverziji. Relaciju $\prec$ definiramo kao tranzitivno zatvorenje relacije $\prec_1$, a relaciju $\preceq$ kao tranzitivno i refleksivno zatvorenje $\prec$.
+  Neka je $T$ skup termova i $conv \in T \times T$ binarna relacija. Ako za $t, s \in T$ vrijedi $t\, conv\, s$ tada kazemo da $t$ konvertira u $s$, gdje $t$ zovemo $redeksom$ (eng. redex), $s$  ? (eng. conversum) od $t$. Zamjenu redexa sa conversumom zovemo \emph{konverzijom $t$ u $s$}. Pisemo $t \prec_1 s$ ako je $s$ dobiven od $t$ u jednoj konverziji. Relaciju $\prec$ definiramo kao tranzitivno zatvorenje relacije $\prec_1$, a relaciju $\preceq$ kao tranzitivno i refleksivno zatvorenje $\prec$. Analogno definiramo relacije $\succ$ i $\succeq$.
 \end{definition}
 
-Posebno, spominjemo dvije vrste konverzija:
+Posebno, spominjemo tri vrste konverzija:
 \begin{itemize}
-  \item $\beta-$konverzija: $(\lambda x^A . t^B) s^A$ $cont_\beta$ $t^B[x^a/s^A]$
+  \item $\alpha-$konverzija: $\lambda x^A . x^A $ $cont_\alpha$ $\lambda y^A . y^A$
+  \item $\beta-$konverzija: $(\lambda x^A . t^B) s^A$ $cont_\beta$ $t^B[x^A/s^A]$
   \item $\eta-$konverzija: $\lambda x^A . t x $ $cont_\eta$ $t$ $(x \not\in FV(t))$
 \end{itemize} 
 
 \begin{primjer}
-  primjer $\beta$ konverzije
+  Neka je $g := (\lambda x y . x y z) (a) (y)$. Tada prema definiciji $\beta-$konverzije imamo
+  \begin{equation*}
+    (\lambda x y . x y z) (a) (y)\, cont_\beta \,(\lambda y. (x y z [x/a])) (y)  = (\lambda y.a y z) (y) cont_\beta \, a y z [y / y]  = a y z
+  \end{equation*}
+  Cime smo opravdali intuitivnu definiciju $\beta$-redukcije kao aplikaciju funkcije na sintakticnoj razini.
 \end{primjer}
+
+Sada, mozemo definirati i semanticku jednakost termova, tj. jednakost po kojoj ce termovi $f$ i $g$ biti jednaki.
 
 \begin{definition}[Jednakost po konverziji]
   Neka je T skup termova i $=_{conv} \in T \times T$. Kažemo \emph{$t$ je jednak po konverziji $s$} i pišemo $t =_{conv} s$ ako ako postoji niz $t_o, t_1, t_2, .., t_n$,. takav da
@@ -62,10 +94,6 @@ Posebno, spominjemo dvije vrste konverzija:
     \item $t_i \prec t_{i+1}$ ili $t_i \succ t_{i+1}$ za $i \in {0, 1, .., n}$
   \end{itemize}
 \end{definition}
-
-\begin{primjer}
-  Primjer termova koju nisu jednaki, ali su jednaki po konverziji
-\end{primjer}
 
 \begin{definition}[Normalna forma]
   Za term $t \in T$ kazemo da je u \emph{normalnoj formi} ako ne sadrzi redeks. $t$ ima normalnu formu ako vrijedi $t \succeq s$ i $s$ je u normalnoj formi.
@@ -156,9 +184,14 @@ Posebno, spominjemo dvije vrste konverzija:
       \end{equation*}
     \item ako je $t^{A \to B}$ i $s^A$ tada je $App(t^{A \to B}, s^a) ^B$ term tipa $B$
   \end{itemize}
+
 \end{definition}
 
+Napisati iskaze teorema i definirati sve sto se spominje u iskazu.
+Zadnja 3-4 teorema - coherence theorems
 
+conversum - kontraktum
+koristiti redukciju
 \begin{definition}[tipizirana kombinatorna logike $CL_\to$]
   Raspisati aksiome identicne kao i za $\lambda_\to$ nakon sto se prilagodi nekom citljivijem formatu (mozda u dva stupca?)
 \end{definition}

@@ -810,6 +810,10 @@
     \item produkt nije samo objekt, produkt je objekt i dvije strelice
     \item mediator je jedinstveni za grananje na $X$
   \end{itemize}
+  Općenito, definicija produkta se može generalizirati na više od dva člana, ali ona ne
+  doprinosi razmatranju o ovome radu, pa izjednačavamo definiciju \mathbb{binarnog produkta} i
+  \mathbb{produkta}. Za kategoriju C kažemo da ima produkt (binarni produkt) ukoliko
+  za svaki $A, B \in Obj_C$ postoji produkt (binarni produkt).
   U \category{Hask}-u možemo definirati funkciju (višeg reda)
   \codei{factorizer} koja će za bilo koji tip c i dvije projekcije $c
   \xrightarrow{p} a$ i $c \xrightarrow{q} b$ vratiti jedinstveni mediator.
@@ -1069,6 +1073,44 @@
   Time smo preko teorije kategorije funktora eliminirali potrebu za
   petljama koje su neizostavne kod imperativnih programskih jezika.
   \newpage
+
+
+  \section{Kartezijanski zatvorene kategorije}
+  U ovom poglavlju definiramo pojam kartezijanski zatvorene kategorija, vrstu kategorije koja ima ekspresivnu moć jednaku tipiziranom lambda računu.  Da bi definirali projam zatvorene kategorije nužno je definirati i pojam eksponenta, kategorijskog analogona funkcijskom prostoru između dva skupa. Nakon definicije kartezijanski zatvorenih kategorija navodimo nekoliko najbitinjih primjera. 
+  \begin{definition}
+    Neka je C kategorija koji ima produkt i neka su $Z, Y \in Obj_C$. Eksponencijani objekt je objekt $Z^Y$ koji ima svojstvo $Z^Y \times Y \xrightarrow{apply} Z$ ako za bilo koji objekt $X \in Obj_c$ i morfizam $X \times Y \xrightarrow{g} Z$ postoji jedinstveni morfizam $X \xrightarrow{\lambda g} Z^Y$ t.d.
+    \begin{center}
+      $X \times Y \xrightarrow{\lambda g \times Y} Z^Y \times Y \xrightarrow{apply} Z$ je $g$
+    \end{center}
+  \end{definition}
+    Morfizam $apply$ se ponekad u literaturi zove i $eval$. U kategoriji \category{Set}, eksponencijalan objekt $Z^Y$ je skup svih funkcija $Y \to Z$ gdje jednostavno možemo vidjeti strukturu $apply$ funkcije:
+    \begin{center}
+      $Z^Y \times Y \xrightarrow{apply} Z$ pridružuje uređenom paru $(f, y)$ rezultat $f(y)$.
+    \end{center}
+    Slično, za preslikavanje $X \times Y \xrightarrow{g} Z$ možemo definirati morfizam $X \xrightarrow{\lambda g} Z^Y$ (tzv. currying) kao:
+    \begin{center}
+      $\lambda g(x)(y) = g(x, y)$
+    \end{center}
+  \begin{definition}
+    Za kategoriju C kažemo da je kartezijanski zatvorena kategorija, skračeno CCC (eng. Cartesian closed category), ako vrijedi:
+    \begin{itemize}
+      \item kategorija \category{C} sadrži inicijalni objekt,
+      \item za svaki par $A, B \in Obj_C$ postoji Kartezijev produkt $A \times B$ u C
+      \item za svaki par $A, B \in Obj_C$ postoji eksponencijal $B^A$ u C.
+    \end{itemize}
+  \end{definition}
+  Primijetimo da smo i prethodnu tvrdnju mogli iskazati pomoću prethodno definirane kartezijeve kategorije; kartezijeva kategorija C je kartezijanski zatvorena kategorija, ukoliko za svaki par $A, B \in Obj_C$ postoji eksponencijal $B^A$ u C.
+
+  \primjer{Pokazali smo da je \category{Set} kategorija i da je $\emptyset$ inicijalni objekt za \cateogry{Set}. Postojanje eksponenta i njegove struktura je opisana  u 1.18. Pokažimo sad još da u \category{Set} postoji i kartezijev produkt.
+  \begin{itemize}
+    \item Za $A, B \in Obj_\category{Set}$, $A \times B = \{ (a, b) | a \in A, b \in B \}$, tj. $A \times B$ je standardni kartezijevski produkt nad skupovima. 
+  \end{itemize}
+
+  Iz čega zaključujemo da je \category{Set} CCC.
+  }
+  \newpage
+
+
   \section*{Literatura}
   \begin{description}
     \item[[1]]
