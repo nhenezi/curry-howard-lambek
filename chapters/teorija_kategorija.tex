@@ -1,11 +1,11 @@
   U ovom poglavlju definiramo kategorije i detaljno raspisujemo nekoliko
   primjera kategorija. 
-  U poglavlju "Dijagram" uvodimo koncept dijagrama i tehniku "praćenja
+  U točki "Dijagram" uvodimo koncept dijagrama i tehniku "praćenja
   dijagrama" koja olakšava neka razmatranja u teoriji kategorija.
-  Iduća poglavlja posvećujemo  "strelicama" i "objektima". Pritom navodimo nekoliko
+  Iduće točke posvećujemo  "strelicama" i "objektima". Pritom navodimo nekoliko
   posebnih slučajava, proučavamo njihove strukture i izdvajamo nekoliko nama
   zanimljivih slučajeva.
-  U posljednjem poglavlju bavimo se preslikavanjem između kategorija i
+  U posljednjoj točki ovog poglavlja bavimo se preslikavanjem između kategorija i
   demonstriramo praktičnu primjenu kategorije teorija u funkcijskom programskom jeziku Haskell.
 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -18,8 +18,9 @@
   preslikavanja ne moraju biti funkcije na skupovima.
   U ovom poglavlju definiramo kategorije i detaljno raspisujemo nekoliko
   primjera.
-  \begin{definition}
-    Kategorija $G$ sastoji se od:
+  \begin{definition}\ \\
+  
+	\noindent Kategorija $G$ sastoji se od:
     \begin{itemize}
       \item klase objekata $Obj$
       \item klase strelica $Arw$
@@ -27,42 +28,44 @@
       \item preslikavanja $Arw \xrightarrow{target} Obj$
       \item preslikavanja (identitete) $Obj \xrightarrow{id} Arw$ takvog da
       za $B \xrightarrow{id} id_B$ vrijedi:
-        \begin{equation}
+        \begin{equation*}
           target(id_B) = source(id_B) = B
-        \end{equation}
+        \end{equation*}
       \item preslikavanja (kompozicije) $Arw \times Arw \xrightarrow{\circ}
       Arw$ takvog da za \\ $(f, g) \xrightarrow{\circ} f \circ g$ vrijedi:
-        \begin{align}
+        \begin{align*}
           source(f) &= target(g) \\
           source(f \circ g) &= source(g) \\
           target(f \circ g) &= target(f)
-        \end{align}
+        \end{align*}
     \end{itemize}
+    
     Preslikavanje identiteta ($id$) i kompozicija ($\circ$) moraju
     zadovoljavati:
     \begin{itemize}
       \item svojstvo identiteta: za svaku strelicu $A \xrightarrow{f} B$ vrijedi:
-        \begin{align}
+        \begin{align*}
           id_B \circ f = f = f \circ id_A
-        \end{align}
+        \end{align*}
       \item svojstvo asocijativnost: za sve strelice $A \xrightarrow{f} B
       \xrightarrow{g} C \xrightarrow{h} D$ vrijedi:
-        \begin{align} \label{def:kat_assoc}
+        \begin{align*} \label{def:kat_assoc}
           (h \circ g) \circ f = h \circ (g \circ f)
-        \end{align}
+        \end{align*}
     \end{itemize}
   \end{definition}
   Kada želimo posebno naglasiti kojoj kategoriji pripadaju strelice i objekti
   onda ćemo umjesto $Obj$ i $Arw$ pisati $Obj_G$ i $Arw_G$.
   Za $A, B \in Obj_G$ skup svih strelica sa $A$ u $B$ označavamo sa
   \category{G}$[A, B]$.
-  Sada ćemo detaljno raspisati nekoliko primjera kategorija.
+  Sada ćemo detaljno raspisati nekoliko primjera kategorija.\\
 
   %%%%%%%%%%%%%%%%%%%%
   %% Mon Kategorija %%
   %%%%%%%%%%%%%%%%%%%%
-  \primjer{
-    \textbf{Monoid} je uređena trojka $(M, \cdot_M, 1_M)$ gdje je $M$ skup, $1_M
+  \begin{example}\ \\
+   
+    \noindent \textbf{Monoid} je uređena trojka $(M, \cdot_M, 1_M)$ gdje je $M$ skup, $1_M
     \in M$, $\cdot_M$ binarna operacija na $M$ za koju vrijedi da za svaki $a, b, c \in M$:
     \begin{equation*}
       (a \cdot_M b) \cdot_M c = a \cdot_M (b \cdot_M c)
@@ -108,13 +111,15 @@
     \end{equation*}
     Zbog asocijativnosti kompozicije funkcija te monoide možemo promatrati kao
     kategorije. Kategoriju monoida označavamo sa \category{Mon}.
-  }
+  
+  \end{example}
 
   %%%%%%%%%%%%%%%%%%%%
   %% Pos Kategorija %%
   %%%%%%%%%%%%%%%%%%%%
-  \primjer{
-    Neka je $S$ skup i $\leq_S \subseteq S \times S$ relacija na $S$. Uređeni par $(S,
+  \begin{example}\ \\
+  
+   \noindent Neka je $S$ skup i $\leq_S \subseteq S \times S$ relacija na $S$. Uređeni par $(S,
     \leq_S)$ zovemo \textbf{parcijalno uređeni skup} ako za svaki $a, b, c \in S$
     vrijedi:
     \begin{itemize}
@@ -150,8 +155,9 @@
     (h \circ g) \circ f = h \circ (g \circ f)
   \end{equation*}
   pa možemo govoriti o kategoriji \category{Pos} gdje su objekti parcijalno
-  uređeni skupovi a strelice monotona preslikavanja.
-  }
+  uređeni skupovi a strelice monotona preslikavanja.\\
+  \end{example}
+  
   %%%%%%%%%%%%%
   %% Haskell %%
   %%%%%%%%%%%%%
@@ -169,7 +175,7 @@
   \codei{()} koji nazivamo unit i čija je jedina vrijednost
   \codei{()}.
 
-  Haskellove funkcije ne možemo poistovjetiti sa matematičkim funkcijama jer
+  Haskellove funkcije ne možemo poistovjetiti s matematičkim funkcijama jer
   Haskellove funkcije trebaju izvršiti neki kod - što nije problem ukoliko se
   može doći do rezultata u konačno mnogo koraka, ali ponekad to nije slučaj. Zbog "Halting
   problema"\footnote{Ako je zadan program i ulaz za taj program, odredite hoće
@@ -189,25 +195,28 @@
   do nekih komplikacija \footnote{seq - \url{https://wiki.haskell.org/Seq}}
   ali su Nils Anders Danielsson, John Hughes, Patrik Jansson i Jeremy Gibbons
   u \textit{Fast and Loose Reasoning is Morally Correct} (\ref{bib:fast-loose}) pokazali
-  da za potrebe ovog rada možemo ignorirati znak ⊥ i njegove posljedice. Uzevši to u obzir, dajemo idealiziranu definiciju \category{Hask}-a.
+  da za potrebe ovog rada možemo ignorirati znak ⊥ i njegove posljedice. Uzevši to u obzir, dajemo idealiziranu definiciju \category{Hask}-a.\\
   %%%%%%%%%%%%%%%%%%%%%
   %% Hask Kategorija %%
   %%%%%%%%%%%%%%%%%%%%%
-  \primjer{ \category{Hask} je kategorija Haskellovih tipova i funkcija. U
+  
+	\begin{example}\ \\
+	
+  \noindent \category{Hask} je kategorija Haskellovih tipova i funkcija. U
   \category{Hask} kategoriji objekti su Haskellovi tipovi koje označavamo velikim
   slovima:
-    \code{A, B, C, ...}
+  \code{A, B, C, ...}.
   Strelice u \category{Hask}-u su Haskellove funkcije koje označavamo malim
   slovima:
-    \code{f, g, h, ...}
+  \code{f, g, h, ...}.
   Strelicu $A \xrightarrow{f} B$ u \category{Hask}-u zapisujemo:
-    \code{f :: A -> B}
+  \code{f :: A -> B}.
   Funkcije
-    \code{
+  \code{
       f :: A -> B, g :: A -> B
       }
   su jednake ako za svaki \texttt{x} vrijedi:
-    \code{ f x = g x }
+    \code{ f x = g x }.
   Kompoziciju ($A \xrightarrow{f \circ g} C$) zapisujemo:
     \code{(f.g) :: A -> C}
     i definiramo kao standardnu funkcijsku kompoziciju, tj.:
@@ -216,38 +225,34 @@
   Identiteta u \category{Hask}-u dana je funkcijom:
     \code{ id x = x }
   te se lako vidi da vrijedi:
-    \code{ id.f = f = id.f }
-  }
+    \code{ id.f = f = id.f }.\\
+  \end{example}
 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %% Kategorija gdje strelica nije standardna funkcija %%
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  \primjer{
-    Pokažimo sada primjer neke kategorije $G$ gdje su objekti konačni skupovi,
+	\begin{example}\ \\
+	
+    \noindent Pokažimo sada primjer neke kategorije $G$ gdje su objekti konačni skupovi,
     a strelica između objekata ne mora biti uobičajena funkcija.\\
     Neka su $A, B$ konačni skupovi, strelica $A \xrightarrow{f} B$ je
-    proizvoljna funkcija:
-    \begin{equation*}
-      f:A \times B \rightarrow \mathbb{R}
-    \end{equation*}
-    Za strelice $A \xrightarrow{f} B \xrightarrow{g} C$ definiramo:
-    \begin{equation*}
-      g \circ f:A \times C \rightarrow \mathbb{R}
-    \end{equation*}
+    proizvoljna funkcija: $f:A \times B \rightarrow \mathbb{R}$
+    Za strelice $A \xrightarrow{f} B \xrightarrow{g} C$ definiramo: $g \circ f:A \times C \rightarrow \mathbb{R}$
     sa
     \begin{equation*}
       (g \circ f)(a, c) = \sum_{y \in B}f(a, y)g(y,c)
     \end{equation*}
-    Lako se vidi da je to kategorija.
-  }
+    Lako se vidi da je to kategorija.\\
+\end{example}
 
   %%%%%%%%%%%%%%%%%%%%%%%
   %% Dualna kategorija %%
   %%%%%%%%%%%%%%%%%%%%%%%
-  \primjer{
-    Neka je $G$ neka kategorija. Tada definiramo kategoriju $G^{op}$ koja ima
+	\begin{example}\ \\
+	
+    \noindent Neka je $G$ neka kategorija. Tada definiramo kategoriju $G^{op}$ koja ima
     iste objekte kao i $G$, a za svaku strelicu $A \xrightarrow{f} B$ u $G$ 
-    definirana je dualna strelica $B \xrightarrow{f^{op}} A$ u $G^{op}$.
+    dana je dualna strelica $B \xrightarrow{f^{op}} A$ u $G^{op}$.
     Za strelice $A \xrightarrow{f} B \xrightarrow{g} C$ kompozicija strelica
     u $G^{op}$ definirana je sa:
     \begin{equation*}
@@ -270,12 +275,14 @@
       &= h^{op} \circ^{op} (g \circ f)^{op}\\
       &= h^{op} \circ^{op} (g^{op} \circ^{op} f^{op})
     \end{align*}
-    Pa je $G^{op}$ kategorija.
-  }
+    Pa je $G^{op}$ kategorija.\\
+\end{example}
 
-  U kasnijim razmatranjima bit će nam potreban pojam potkategorije.
-  \begin{definition}
-    Za kategoriju \category{G} kažemo da je potkategorija kategorije
+\noindent U kasnijim razmatranjima bit će nam potreban pojam podkategorije.\\
+
+  \begin{definition}\ \\
+  
+   \noindent Za kategoriju \category{G} kažemo da je podkategorija kategorije
     \category{C} ako vrijedi
     \begin{itemize}
       \item $Obj_\category{G} \subseteq Obj_\category{C}$
@@ -283,10 +290,12 @@
         \category{C}[A, B]$
       \item kompozicija i identitata su jednaki u \category{G} i \category{C}
     \end{itemize}
-    Kažemo da je potkategorija \textbf{puna} ako za $A, B \in \category{G},
-    \category{G}[A, B] = \category{C}[A, B]$
+    Kažemo da je podkategorija \textbf{puna} ako za svaki $A, B \in \category{G}$ vrijedi
+    $\category{G}[A, B] = \category{C}[A, B]$\\
+    
   \end{definition}
-  Primijetimo da je puna potkategorija jedinstveno zadana svojim objektima.
+  
+\noindent Primijetimo da je puna podkategorija jedinstveno zadana svojim objektima.
   %%%%%%%%%%%%%%%%%%%%%%%%
   %%%%%%%%%%%%%%%%%%%%%%%%
   %%%%%%% DIJAGRAM %%%%%%%
@@ -371,22 +380,14 @@
       \item vanjska ćelija komutira ako vrijedi $g \circ f = l \circ k$
   \end{itemize}
   Praćenje dijagrama je proces u kojem pokazujemo da neka ćelija komutira pomoću
-  činjenica da neke druge ćelije komutiraju te nekih drugih svojstava dijagrama.
+  činjenica da neke druge ćelije komutiraju te nekih drugih svojstava dijagrama.\\
 
-  \primjer{
-    Pokažimo za prethodni dijagram da ukoliko unutarnji trokuti
-    komutiraju, tada vanjska ćelija komutira tj. ako vrijedi:
-    \begin{align*}
-      h \circ f = k \qquad  l \circ h = g
-    \end{align*}
-    tada vrijedi:
-    \begin{align*}
-      g \circ f = l \circ k.
-    \end{align*}
-    Pokažimo to algebarski:
-    \begin{align*}
-      g \circ f = (l \circ h) \circ f \overset{(\ref{def:kat_assoc})}{=} l \circ (h \circ f) = l \circ k
-    \end{align*}
+\begin{example}\ \\
+
+    \noindent Pokažimo za prethodni dijagram da ukoliko unutarnji trokuti
+    komutiraju, tada vanjska ćelija komutira tj. ako vrijedi: $h \circ f = k$ i $ l \circ h = g$.
+    Tada vrijedi: $g \circ f = l \circ k$.\\
+    Pokažimo to algebarski:$g \circ f = (l \circ h) \circ f \overset{(\ref{def:kat_assoc})}{=} l \circ (h \circ f) = l \circ k$.
     Tehnikom praćenja dijagrama i uočavanjem da su neke kompozicije jednake
     imamo:
     \begin{center}
@@ -408,14 +409,15 @@
       \draw[->] (J) -- (K) node[anchor=north] {$l$};
       \end{tikzpicture}
     \end{center}
-  }
+\end{example}
 
   Kod jednostavnijih primjera ne vidi se prednost korištenja tehnike dijagrama.
   Pokažimo sada na malo kompliciranijem primjeru kako se tehnikom dijagrama
-  intuitivnije može objasniti komutacija dijagrama.
+  intuitivnije može objasniti komutacija dijagrama.\\
 
-  \primjer{
-    Ako u dijagramu:
+\begin{example}\ \\
+
+    \noindent Ako u dijagramu:
     \begin{center}
       \begin{tikzpicture}[every node/.style={midway}]
         \matrix[column sep={3em,between origins}, row sep={2em}, ampersand replacement=\&] at (0,0)
@@ -437,16 +439,11 @@
     \end{center}
 
     \noindent komutiraju četiri unutarnja trokuta, pokažimo da komutira i vanjska
-    ćelija. Cilj nam je pokazati da vrijedi:
-    \begin{center}
-      $h \circ g \circ f = l \circ k$
-    \end{center}
-    Algebarski:
-    \begin{align*}
-      h \circ g \circ f &= h \circ (n \circ m) \circ f = (h \circ n) \circ (m \circ f) =\\
-      &= j \circ i = l \circ k\\
-    \end{align*}
-    Pokažimo to tehnikom praćenja dijagrama.
+    ćelija. Cilj nam je pokazati da vrijedi: $h \circ g \circ f = l \circ k$.\\
+    
+    \noindent Algebarski: $h \circ g \circ f = h \circ (n \circ m) \circ f = (h \circ n) \circ (m \circ f) = j \circ i = l \circ k$.\\
+      
+    \noindent Pokažimo to tehnikom praćenja dijagrama.
     \begin{center}
       \begin{tikzpicture}[every node/.style={midway}]
         \matrix[column sep={3em,between origins}, row sep={2em}, ampersand replacement=\&] at (0,0)
@@ -484,84 +481,56 @@
       \end{tikzpicture}
     \end{center}
 
-  }
+\end{example}
   %%%%%%%%%%%%%%%%%%%
   %% Monoik i epik %%
   %%%%%%%%%%%%%%%%%%%
   \newpage
   \section{Monoik i epik}
   U ovom poglavlju proširujemo terminologiju i proučavamo posebne slučajeve
-  strelica kako bismo došli do definicije izomorfizma.
-  \begin{definition}
-    U proizvoljnoj kategoriji \category{G} strelicu:
-    \begin{align*}
-      B \xrightarrow{m} A
-    \end{align*}
+  strelica kako bismo došli do definicije izomorfizma.\\
+  
+  \begin{definition}\ \\
+  
+    \noindent U proizvoljnoj kategoriji \category{G} strelicu: $B \xrightarrow{m} A$
     za koju vrijedi da za svaki par strelica
-    \begin{align*}
-      X \xbigtoto[g]{f} B
-    \end{align*}
-    vrijedi:
-    \begin{align}
-      m \circ f = m \circ g \implies f = g
-    \end{align}
-    zovemo \textbf{monoik}.
+     $ X \xbigtoto[g]{f} B$
+    vrijedi: $m \circ f = m \circ g \implies f = g$
+    zovemo \textbf{monoik}.\\
   \end{definition}
-  \primjer{
-    Neka je \category{G} neka kategorija na skupovima i neka su strelice
+  
+\begin{example}\ \\
+
+    \noindent Neka je \category{G} neka kategorija na skupovima i neka su strelice
     totalne funkcije između skupova.
     Ako je $B \xrightarrow{m} A$ injektivna (kao funkcija) tada je $m$ monoik (kao
-    strelica). Pokažimo to.\\
-    Pretpostavimo da vrijedi:
-    \begin{align} \label{me:pr:1}
-      m \circ f = m \circ g
-    \end{align}
-    za neki paralelni par strelica
-    \begin{align*}
-      A \xbigtoto[g]{f} B
-    \end{align*}
-    Kako su $f$ i $g$ totalne funkcije dovoljno je pokazati da za svaki $x \in X$
-    vrijedi:
-    \begin{align*}
-      f(x) = g(x)
-    \end{align*}
-    Imamo:
-    \begin{align*}
-      m(f(x)) = (m \circ f)(x) \overset{(\ref{me:pr:1})}{=} (m \circ g)(x) = m(g(x))
-    \end{align*}
+    strelica). Pokažimo to.\\    
+    \noindent Pretpostavimo da vrijedi: $ m \circ f = m \circ g$ \label{me:pr:1}
+    za neki paralelni par strelica $A \xbigtoto[g]{f} B$. Kako su $f$ i $g$ totalne funkcije dovoljno je pokazati da za svaki $x \in X$ vrijedi: $f(x) = g(x)$. Imamo:
+     $m(f(x)) = (m \circ f)(x) \overset{(\ref{me:pr:1})}{=} (m \circ g)(x) = m(g(x))$.
     No, kako je $m$ injektivna za $a, b \in B$ imamo:
-    \begin{align*}
-      m(a) = m(b) \implies a = b
-    \end{align*}
-    pa je $m$ monoik.
-  }
+     $m(a) = m(b) \implies a = b$
+   	pa je $m$ monoik.\\
+\end{example}
 
-  \begin{definition}
-    U proizvoljnoj kategoriji \category{G} strelicu:
-    \begin{align*}
-      A \xrightarrow{e} B
-    \end{align*}
-    za koju vrijedi da za svaki par strelica
-    \begin{align*}
-      B \xbigtoto[g]{f} X
-    \end{align*}
-    vrijedi:
-    \begin{align}
-      f \circ e = g \circ e \implies f = g
-    \end{align}
-    zovemo \textbf{epik}.
+  \begin{definition}\ \\
+  
+    \noindent U proizvoljnoj kategoriji \category{G} strelicu: $A \xrightarrow{e} B$ za koju vrijedi da za svaki par strelica $B \xbigtoto[g]{f} X$ vrijedi: $f \circ e = g \circ e \implies f = g$ zovemo \textbf{epik}.
   \end{definition}
+  
   Pokažimo sada na sličnom primjeru kao i ranije kako se epik ponaša na
   kategoriji nad skupovima.
-  \primjer{
-    Neka je \category{G} neka kategorija na skupovima i neka su strelice
+
+\begin{example}\ \\
+	
+	\noindent Neka je \category{G} neka kategorija na skupovima i neka su strelice
     totalne funkcije između skupova.
     Ako je $A \xrightarrow{e} B$ surjektivna (kao funkcija) tada je epik (kao
     strelica).
     Pretpostavimo da vrijedi:
-    \begin{align} \label{me:pr:2}
+    \begin{align*} \label{me:pr:2}
       f \circ e = g \circ e
-    \end{align}
+    \end{align*}
     za neki paralelni par strelica
     \begin{align*}
       B \xbigtoto[g]{f} X
@@ -580,47 +549,53 @@
     \begin{align*}
       f(b) = f(e(a)) = (f \circ e)(a) = (g \circ e)(a) = g(e(a)) = g(b)
     \end{align*}
-    Pa je $e$ epik.
-  }
+    Pa je $e$ epik.\\
+\end{example}
+
     Prethodni primjeri pokazuju da za "dovoljno lijepe" kategorije vrijedi:
     \begin{center}
-      injekcija $\implies$ monoik \qquad surjekcija $\implies$ epik
+      injekcija $\implies$ monoik \qquad i \qquad surjekcija $\implies$ epik.
     \end{center}
     No, za neke kategorije "injektivna strelica" ili "surjektivna strelica"
     nemaju smisla tako da takva intuitivna interpretacija ima smisla samo za
     "dovoljno lijepe" kategorije. Pravilnije bi bilo gledati na monoik i epik
     kao na strelice koje se mogu "poništiti" na jednoj strani. Ako pak strelica
-    ima jednostrani inverz tada dobivamo posebnu klasu monoika i epika.
-    \begin{definition}
-      Ako za strelice:
-      \begin{align*}
-        B \xrightarrow{s} A, \qquad A \xrightarrow{r} B
-      \end{align*}
+    ima jednostrani inverz tada dobivamo posebnu klasu monoika i epika.\\
+    
+    \begin{definition}\ \\
+    
+      \noindent Ako za strelice:
+       $B \xrightarrow{s} A, A \xrightarrow{r} B$
       vrijedi:
-      \begin{align*}
-        r \circ s = id_B
-      \end{align*}
+       $r \circ s = id_B$
       tada $s$ nazivamo \textbf{sekcija}, a $r$ \textbf{retrakcija}.
     \end{definition}
+    
     Lako se pokaže da je svaka sekcija monoik i svaka retrakcija epik.
-    \begin{definition}
-      \textbf{Bimorfizam} je strelica koja je monik i epik.
+    
+    \begin{definition}\ \\
+    
+    \noindent \textbf{Bimorfizam} je strelica koja je monik i epik.\\
     \end{definition}
-    \begin{definition}
-      Za strelicu $A \xrightarrow{f} B$ kažemo da je \textbf{izomorfizam} ako
-      postoji strelica $B \xrightarrow{g} A$ takva da vrijedi:
-      \begin{align}
+    
+    \begin{definition}\ \\
+    
+    \noindent Za strelicu $A \xrightarrow{f} B$ kažemo da je \textbf{izomorfizam} ako
+    postoji strelica $B \xrightarrow{g} A$ takva da vrijedi:
+      \begin{align*}
         g \circ f = id_A \wedge f \circ g = id_B
-      \end{align}
+      \end{align*}
     \end{definition}
-    \begin{definition}
-      Za dva objekta $A$ i $B$ kažemo da su \textbf{izomorfni} ako postoji izomorfizam
-      $A \xrightarrow{} B$.
+    
+    \begin{definition}\ \\
+    
+    \noindent Za dva objekta $A$ i $B$ kažemo da su \textbf{izomorfni} ako postoji izomorfizam
+    $A \xrightarrow{} B$.\\
     \end{definition}
 
     Lako se pokaže da ukoliko je strelica sekcija i epik ili retrakcija i
     monoik tada je i izomorfizam.
-    Grafički prikazano:
+    Grafički to ilustriramo na sljedećoj skici:
     \begin{center}
     \begin{tikzpicture}[every node/.style={midway}]
       \matrix[column sep={5em,between origins}, row sep={2em}] at (0,0)
@@ -642,6 +617,7 @@
       \draw[->] (B) -- (I) node[anchor=north] {};
     \end{tikzpicture}
     \end{center}
+    
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %% Kategorijski konstruktori %%
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -652,34 +628,30 @@
   kategorija. Kako u jeziku kategorija ne gledamo unutrašnju strukturu objekata
   svi koncepti moraju biti definirani pomoću relacija između objekata.
   \subsection{Inicijalni i finalni objekti}
-  \begin{definition}
-    Za objekt $S$ u kategoriji \category{G} kažemo da je \textbf{inicijalni} ako za svaki
-    objekt $A$ postoji jedinstvena strelica $S \xrightarrow{} A$.
+
+  \begin{definition}\ \\
+  
+    \noindent Za objekt $S$ u kategoriji \category{G} kažemo da je \textbf{inicijalni} ako za svaki
+    objekt $A$ postoji jedinstvena strelica $S \xrightarrow{} A$.\\
   \end{definition}
-  \begin{definition}
-    Za objekt $S$ u kategoriji \category{G} kažemo da je \textbf{finalni} ako za svaki
-    objekt $A$ postoji jedinstvena strelica $A \xrightarrow{} S$.
+  
+  \begin{definition}\ \\
+  
+    \noindent Za objekt $S$ u kategoriji \category{G} kažemo da je \textbf{finalni} ako za svaki
+    objekt $A$ postoji jedinstvena strelica $A \xrightarrow{} S$.\\
   \end{definition}
-  Lako se pokaže da ukoliko je objekt $I$ finalni objekt u kategoriji \category{G} tada je $I$ inicijalni objekt u $\category{G}^{op}$.
-  \primjer{
-    Neka je \category{Set} kategorija skupova i neka je 
-    \begin{center}
-      $1 = \{x\}$
-    \end{center}
-    skup s jednim elementom. Za svaki skup $A$ postoji jedinstvena strelica
-    \begin{center}
-      $A \xrightarrow{} 1$
-    \end{center}
-    (funkcija koja preslikava sve u $x$) pa je $1$ finalni objekt za
-    \category{Set}.
-    Za svaki skup $A$ postoji jedinstvena strelica
-    \begin{center}
-      $\emptyset \xrightarrow{} A$
-    \end{center}
-    (gdje je $\emptyset$ prazan skup) pa je $\emptyset$ inicijalni objekt za
-    \category{Set}.
-  }
-  \primjer{ \codei{Void} je inicijalni objekt u \category{Hask}.
+  
+  Lako se pokaže da ukoliko je objekt $I$ finalni objekt u kategoriji \category{G} tada je $I$ inicijalni objekt u $\category{G}^{op}$.\\
+  
+  \begin{example}\ \\
+  
+    \noindent Neka je \category{Set} kategorija skupova i neka je $1 = \{x\}$ skup s jednim elementom. Za svaki skup $A$ postoji jedinstvena strelica $A \xrightarrow{} 1$ (funkcija koja preslikava sve u $x$) pa je $1$ finalni objekt za \category{Set}. Za svaki skup $A$ postoji jedinstvena strelica $\emptyset \xrightarrow{} A$ (gdje je $\emptyset$ prazan skup) pa je $\emptyset$ inicijalni objekt za \category{Set}.\\
+  
+  \end{example}
+  
+  \begin{example}\ \\
+  
+  \noindent \codei{Void} je inicijalni objekt u \category{Hask}.
     Zbog polimorfizma \footnote{Parametrizirani polimorfizam omogućava da se
       funkcije pišu generalno bez ovisnosti o tipu, opširnije o tome u
       poglavlju "Funktori". Za sada možemo funkciju \codei{absurd :: -> a}
@@ -688,33 +660,36 @@
     \code{
       absurd :: Void -> a
     }
-    gdje je \codei{a} bilo koji tip u \category{Hask}.
-  }
-  \primjer{ \codei{()} je finalni objekt u \category{Hask}.
+    gdje je \codei{a} bilo koji tip u \category{Hask}.\\
+  
+  \end{example}
+  
+  \begin{example}\ \\
+  
+  \noindent \codei{()} je finalni objekt u \category{Hask}.
     Možemo definirati polimorfnu funkciju \codei{unit :: a -> ()} kao:
     \code{
       unit x = ()
     }
-  }
+  \end{example}
+  
   Kategorija \category{C} može imati i finalni i inicijalni objekt, a ako ima
   oboje onda oni ne moraju biti isti. Objekt koji je i finalni i inicijalni ponekad
   zovemo \textbf{nulti} objekt. Lako se pokaže da ukoliko kategorija ima dva inicijalna
   objekta tada su oni izomorfni. Stoga ima smisla govoriti o inicijalnom objektu
   kategorije te analogno o finalnom objektu.
+  
   \subsection{Produkti i koprodukti}
   Produkt u teoriji kategorija je generalizacija Kartezijskog produkta na
   skupovima. Prisjetimo se, ako su $A, B$ skupovi tada je Kartezijev produkt ta
-  dva skupa:
-  \begin{align*}
-    A \times B = \{ (a, b) | a \in A, b \in B\}
-  \end{align*}
-  Primijetimo da je uz takvu definiciju Kartezijevog produkta prirodno
+  dva skupa definiran sa: $A \times B = \{ (a, b) | a \in A, b \in B\}$.\\
+  
+  \noindent Primijetimo da je uz takvu definiciju Kartezijevog produkta prirodno
   definirati dvije projekcije:
-  \begin{align*}
-    p_A &: A \times B \to A, p_A(a, b) = a\\
-    p_B &: A \times B \to B, p_B(a, b) = b\\
-  \end{align*}
-  Ako su \codei{a} i \codei{b} proizvoljni tipovi u \category{Hask} te dvije
+    $p_A : A \times B \to A, p_A(a, b) = a$; 
+    $p_B : A \times B \to B, p_B(a, b) = b$.\\
+
+  \noindent Ako su \codei{a} i \codei{b} proizvoljni tipovi u \category{Hask} te dvije
   funkcije zovemo \codei{fst} i \codei{snd}.
   \begin{mcode}
     fst :: (a, b) -> a
@@ -723,9 +698,11 @@
     snd :: (a, b) -> b
     snd (x, y) = y
   \end{mcode}
-  Pa na razini kategorija definiramo prvi konstruktor.
-  \begin{definition}
-    Za $A, B \in Obj_C$ \textbf{grananje prema paru $A, B$} je objekt $X \in
+  Pa na razini kategorija definiramo prvi konstruktor.\\
+  
+  \begin{definition}\ \\
+  
+    \noindent Za $A, B \in Obj_C$ \textbf{grananje prema paru $A, B$} je objekt $X \in
     Obj_C$
     zajedno sa strelicama:
   \begin{center}
@@ -741,8 +718,10 @@
     \end{tikzpicture}
   \end{center}
   \end{definition}
-  \begin{definition}
-    Za $A, B \in Obj_C$ \textbf{grananje od para $A, B$} je objekt $X \in
+  
+  \begin{definition}\ \\
+  
+    \noindent Za $A, B \in Obj_C$ \textbf{grananje od para $A, B$} je objekt $X \in
     Obj_C$
     zajedno sa strelicama:
   \begin{center}
@@ -758,10 +737,13 @@
     \end{tikzpicture}
   \end{center}
   \end{definition}
+  
   Kada će iz konteksta biti jasno o kojem grananju se radi, govorit ćemo
-  samo o grananju. Sada možemo definirati produkt.
-  \begin{definition}
-    Neka su $A, B \in Obj_C$. \textbf{Produkt} od $A$ i $B$ je grananje
+  samo o grananju. Sada možemo definirati produkt.\\
+  
+  \begin{definition}\ \\
+  
+    \noindent Neka su $A, B \in Obj_C$. \textbf{Produkt} od $A$ i $B$ je grananje
   \begin{center}
     \begin{tikzpicture}[every node/.style={midway}]
       \matrix[column sep={3em,between origins}, row sep={2em}] at (0,0)
@@ -803,16 +785,19 @@
       \draw[->] (S) -- (B) node[anchor=west] {$p_B$};
     \end{tikzpicture}
   \end{center}
-  komutira. Tada $m$ zovemo \textbf{mediator} za grananje na $X$.
+  komutira. Tada $m$ zovemo \textbf{mediator} za grananje na $X$.\\
   \end{definition}
-  Primijetimo dvije stvari:
+  
+  
+  \noindent Primijetimo dvije stvari:
   \begin{itemize}
     \item produkt nije samo objekt, produkt je objekt i dvije strelice
     \item mediator je jedinstveni za grananje na $X$
   \end{itemize}
+  
   Općenito, definicija produkta se može generalizirati na više od dva člana, ali ona ne
-  doprinosi razmatranju o ovome radu, pa izjednačavamo definiciju \mathbb{binarnog produkta} i
-  \mathbb{produkta}. Za kategoriju C kažemo da ima produkt (binarni produkt) ukoliko
+  doprinosi razmatranju o ovome radu, pa izjednačavamo definiciju $\mathbb{binarnog produkta}$ i
+  $\mathbb{produkta}$. Za kategoriju C kažemo da ima produkt (binarni produkt) ukoliko
   za svaki $A, B \in Obj_C$ postoji produkt (binarni produkt).
   U \category{Hask}-u možemo definirati funkciju (višeg reda)
   \codei{factorizer} koja će za bilo koji tip c i dvije projekcije $c
@@ -821,10 +806,11 @@
     factorizer :: (c -> a) -> (c -> b) -> (c -> (a, b))
     factorizer p q = \x -> (p x, q x)
   \end{mcode}
-  Analogno definiramo i koprodukt.
+  Analogno definiramo i koprodukt.\\
 
-  \begin{definition}
-    Neka su $A, B \in Obj_C$. \textbf{Koprodukt} od $A$ i $B$ je grananje
+  \begin{definition}\ \\
+  
+   \noindent Neka su $A, B \in Obj_C$. \textbf{Koprodukt} od $A$ i $B$ je grananje
   \begin{center}
     \begin{tikzpicture}[every node/.style={midway}]
       \matrix[column sep={3em,between origins}, row sep={2em}] at (0,0)
@@ -867,19 +853,22 @@
       \draw[->] (S) -- (X) node[anchor=south] {$m$};
     \end{tikzpicture}
   \end{center}
-  komutira.
+  komutira.\\
   \end{definition}
 
-  \begin{definition}
-    Za kategoriju \category{C} kažemo da je \textbf{Kartezijeva} (skraćeno
-    \category{C} je \textbf{CC}) ako:
+  \begin{definition}\ \\
+  
+    \noindent Za kategoriju \category{C} kažemo da je \textbf{Kartezijeva} (skraćeno:
+    "\category{C} je \textbf{CC}") ako:
     \begin{itemize}
       \item sadrži inicijalni objekt,
-      \item za svaki par $A, B \in Obj_C$ postoji Kartezijev produkt.
+      \item za svaki par $A, B \in Obj_C$ postoji Kartezijev produkt.\\
     \end{itemize}
   \end{definition}
-  \primjer{
-    Za kategoriju \category{Set} već smo pokazali da sadrži inicijalni objekt
+  
+  \begin{example}\ \\
+  
+    \noindent Za kategoriju \category{Set} već smo pokazali da sadrži inicijalni objekt
     $\emptyset$.
     Pokažimo sada da je Kartezijev produkt i produkt u kategorijskom smislu.
     Neka su $A$ i $B$ skupovi.
@@ -897,9 +886,7 @@
       \end{tikzpicture}
     \end{center}
     na X definiramo $X \xrightarrow{m} A \times B$ kao:
-    \begin{align*}
-      m(x) = (f_A(x), f_B(x))
-    \end{align*}
+      $m(x) = (f_A(x), f_B(x))$
     za $x \in X$. Lako se pokaže da sljedeći dijagram komutira:
   \begin{center}
     \begin{tikzpicture}[every node/.style={midway}]
@@ -918,20 +905,17 @@
   \end{center}
   Ostaje nam pokazati jedinstvenost, tj. da je $m$ jedina takva funkcija.
   Pretpostavimo da postoji neka druga funkcija
-  \begin{align*}
-    X \xrightarrow{h} A \times B
-  \end{align*}
+    $X \xrightarrow{h} A \times B$
   takva da  vrijedi:
-  \begin{align*}
-    p_A \circ h = f_A \qquad p_B \circ h = f_B\\
-  \end{align*}
+    $p_A \circ h = f_A$ i $p_B \circ h = f_B$.
   Za $x \in X$ imamo:
   \begin{align*}
     h(x) = (p_A(h(x), p_B(h(x))) = ((p_A \circ h )(x), (p_B \circ h)(x)) =
-    (f_A(x), f_B(x)) = m(x)
+    (f_A(x), f_B(x)) = m(x).
   \end{align*}
-  Pa je \category{Set} jedna Kartezijeva kategorija.
-  }
+  Stoga je \category{Set} jedna Kartezijeva kategorija.
+	\end{example}
+	
   \newpage
 
   %%%%%%%%%%%%%%
@@ -942,8 +926,10 @@
   proučavali različite vrste strelica, objekata i pokazali njihove ekvivalente
   u \category{Hask}-u. U ovom poglavlju bavimo se "preslikavanjima" između
   kategorija i demonstriramo praktičnu primjenu teorije kategorije u Haskellu.
-  \begin{definition}
-    Neka su \category{C} i \category{G} kategorije. \textbf{Funktor} $F$ iz
+  
+  \begin{definition}\ \\
+  
+    \noindent Neka su \category{C} i \category{G} kategorije. \textbf{Funktor} $F$ iz
     \category{C} u \category{G} je preslikavanje koje:
     \begin{itemize}
       \item svakome $x \in Obj_\category{C}$ pridružuje $F(x) \in
@@ -957,25 +943,32 @@
         \end{itemize}
     \end{itemize}
   \end{definition}
+  
   Funktori čuvaju strukturu kategorije, odnosno sve što je povezano u početnoj
-  kategoriji ostat će povezano i u krajnjoj.
-  \begin{definition}
-    Neka je \category{C} proizvoljna kategorija i neka je $F$ funktor sa
+  kategoriji ostat će povezano i u krajnjoj.\\
+  
+  \begin{definition}\ \\
+  
+    \noindent Neka je \category{C} proizvoljna kategorija i neka je $F$ funktor sa
     \category{C} u \category{C}. Tada kažemo da je $F$ \textbf{endofunktor} nad
-    \category{C}.
+    \category{C}.\\
   \end{definition}
-  \primjer{
-    Neka je \category{C} proizvoljna kategorija te neka je $F$ preslikavanje
+  
+  \begin{definition}\ \\
+  
+    \noindent Neka je \category{C} proizvoljna kategorija te neka je $F$ preslikavanje
     iz \category{C}  u \category{C} takvo da vrijedi:
     \begin{itemize}
       \item $x = F(x)$ za svaki $x \in Obj_\category{C}$
       \item $f = F(f)$ za svaki $f \in Obj_\category{C}$
     \end{itemize}
-    Tada je $F$ endofunktor nad \category{C} koji zovemo \textbf{funktor identitete}.
-  }
-  Funktori u Haskellu usko su povezani sa gornjom definicijom funktora. 
+    Tada je $F$ endofunktor nad \category{C} koji zovemo \textbf{funktor identitete}.\\
+  \end{definition}
+  
+  Funktori u Haskellu usko su povezani s gornjom definicijom funktora. 
   Da bismo mogli objasniti funktore u Haskellu na primjeru napravit ćemo malu digresiju i definirati
-  jedan od najjednostavnijih parametriziranih tipova: \codei{Maybe}
+  jedan od najjednostavnijih parametriziranih tipova: \codei{Maybe}.
+  
   \subsection{Maybe}
   Parametrizirani tip \codei{Maybe} služi za enkapsuliranje opcionalnih
   vrijednosti, na primjer pretpostavimo da želimo napisati funkciju u Haskellu koja će
@@ -989,7 +982,7 @@
   služiti za rješavanje takozvanih rubnih uvjeta).
 
   \codei{Maybe} je parametrizirani konstruktor tipa, što znači da pomoću njega možemo generirati nove tipove. Definicija \codei{Maybe} u
-  Haskellu:
+  Haskellu glasi:
   \begin{mcode}
     data Maybe a = Just a | Nothing
   \end{mcode}
@@ -1009,15 +1002,16 @@
     >> head' []
     Nothing
   \end{mcode}
+  
   \subsection{Funktori u Haskellu}
   Kako se funktor sastoji od dva dijela: preslikava objekte iz jedne kategorije u drugu
   i preslikava strelice iz prve kategorije u drugu, funktori u Haskellu su iz
-  \category{Hask} u \category{Func}, gdje je \category{Func} potkategorija od
+  \category{Hask} u \category{Func}, gdje je \category{Func} podkategorija od
   \category{Hask}-a. Funktor liste ide iz \category{Hask} u \category{Lst},
   gdje \category{Lst} sadrži samo liste, tj.\codei{[T]}\footnote{
     \codei{[a]} je konstruktor tipa sa jednim parametrom,
     kao i \codei{Maybe a}}
-  za bilo koji tip \codei{T}. Definicija funktora u Haskellu:
+  za bilo koji tip \codei{T}. Definicija funktora u Haskellu glasi:
   \begin{mcode}
     class Functor (f :: * -> *) where
       fmap :: (a -> b) -> f a -> f b
@@ -1027,9 +1021,11 @@
     fmap id = id
     fmap (f . g) = fmap f . fmap g
   \end{mcode}
-  Primijetimo da su ti uvjeti u skladu sa definicijom funktora u kategoriji.
-  \primjer{
-    Pokažimo da je \codei{Maybe a} funktor.
+  Primijetimo da su ti uvjeti u skladu sa definicijom funktora u kategoriji.\\
+  
+ \begin{example}\ \\
+ 
+    \noindent Pokažimo da je \codei{Maybe a} funktor.
     Primijetimo da, pošto je \codei{Maybe} konstruktor tipa (s jednim
     parametrom), bilo koji tip \codei{X} možemo poslati iz \category{Hask}-a i
     dobiti novi tip \codei{Maybe X}. Zaključujemo da \codei{Maybe}
@@ -1049,28 +1045,31 @@
     $\xrightarrow{\texttt{fmap f}}$ \codei{Maybe B}.
     Lako se provjeri da sa tako definiranom funkcijom \codei{fmap} 
     \codei{Maybe a} jest funktor.
-  }
+\end{example}
+
   Korisna intuicija kod Haskellovih funktora je da oni reprezentiraju tipove
   preko kojih se može mapirati: to mogu biti liste cijelih brojeva,
   balansirana stabla, opcionalne vrijednosti (\codei{Maybe a}) ili nešto drugo.
 
   Jednostavan primjer mapiranja preko liste cijelih brojeva može se pokazati
   korištenjem funkcije \codei{double} koja će udvostručiti cijeli broj.
-  Definicija \codei{double} u Haskellu:
+  Definicija \codei{double} u Haskellu glasi:
   \begin{mcode}
     double :: Double -> Double
     double n = n * 2
   \end{mcode}
   Primijetimo da \codei{double} možemo gledati kao \codei{Double}
-  $\xrightarrow{\texttt{double}}$ \codei{Double}. Kako je lista cijelih
-  brojeva (\codei{[Double]}) funktor, možemo preslikati \codei{double} 
+  $\xrightarrow{\texttt{double}}$ \codei{Double}. Kako je lista cijelih brojeva (\codei{[Double]}) funktor, možemo preslikati \codei{double} 
   u \codei{[Double]} $\xrightarrow{\texttt{fmap double}}$
   \codei{[Double]}. Npr.:
   \begin{mcode}
     >> fmap double [1.0..10.0]
     [2.0,4.0,6.0,8.0,10.0,12.0,14.0,16.0,18.0,20.0]
-  \end{mcode}
-  Time smo preko teorije kategorije funktora eliminirali potrebu za
+    \end{mcode}
+
+\vspace{\baselineskip}
+
+ 	Time smo preko teorije kategorije funktora eliminirali potrebu za
   petljama koje su neizostavne kod imperativnih programskih jezika.
   \newpage
 
