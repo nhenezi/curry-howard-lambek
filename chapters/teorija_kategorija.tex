@@ -154,9 +154,16 @@
   \begin{equation*}
     (h \circ g) \circ f = h \circ (g \circ f)
   \end{equation*}
-  pa možemo govoriti o kategoriji \category{Pos} gdje su objekti parcijalno
+  pa možemo govoriti o kategoriji \category{Pos(S)} gdje su objekti parcijalno
   uređeni skupovi a strelice monotona preslikavanja.\\
   \end{example}
+
+  \begin{definition}
+    \textbf{Gornja međa} podskupa $T$ parcijalno uređenog skupa $(S, \leq)$ je $v \in S$ t.d. $\forall t \in T, t \leq v$
+    \end{definition}
+  \begin{definition}
+    \textbf{Supremum} ili \textbf{najmanja gornja međa} podskupa $T$ parcijalno uređenog skupa $(S, \leq)$ je $v \in S$ t.d. je $v$ gornja međa skupa $T$ i vrijedi: ako $w \in S$ ima svojstvo da je $t \leq w$ za svaki $t \in T$, tada je $v \leq w$.
+    \end{definition}
   
   %%%%%%%%%%%%%
   %% Haskell %%
@@ -916,6 +923,15 @@
   Stoga je \category{Set} jedna Kartezijeva kategorija.
 	\end{example}
 	
+  \begin{example}
+    \label{pos:infimum}
+    Neka su $x, y$ objekti u $\category{Pos}$. Prema definiciji produkta, produkt od $x$ i $y$ je objekt $z$, zajedno sa strelicama
+    $z \to y$ i $z \to x$. Ako uzmemo u obzir kontekst ($\category{Pos}$), $z \to y$ i $z \to x$ možemo zapisati i kao $z \leq y$ i $z \leq x$.
+    Definicija produkta zahtjeva i da za bilo koji objekt $w$ iz $\category{Pos}$, $w \to y$ i $w \to x$ postoji strelica $w \to z$, tj.
+    ako $w \leq y$ i $w \leq x$ vrijedi $w \leq z$. S obzirom da je $z \leq y$ i $z \leq x$, $z$ je infimum od $x$ i $y$.
+    Ovime primjerom smo pokazali da se egistencija produkta u $\category{Pos}$ može svesti na egzistenciju infimuma.
+    Primjetimo da iz prethodnog primjera možemo zaključiti da ukoliko kategorija $\category{Pos}$ nema infimum, da tada nema niti produkt. 
+  \end{example}
   \newpage
 
   %%%%%%%%%%%%%%
@@ -1077,7 +1093,7 @@
   \section{Kartezijanski zatvorene kategorije}
   U ovom poglavlju definiramo pojam kartezijanski zatvorene kategorija, vrstu kategorije koja ima ekspresivnu moć jednaku tipiziranom lambda računu.  Da bi definirali projam zatvorene kategorije nužno je definirati i pojam eksponenta, kategorijskog analogona funkcijskom prostoru između dva skupa. Nakon definicije kartezijanski zatvorenih kategorija navodimo nekoliko najbitinjih primjera. 
   \begin{definition}
-    Neka je C kategorija koji ima produkt i neka su $Z, Y \in Obj_C$. Eksponencijani objekt je objekt $Z^Y$ koji ima svojstvo $Z^Y \times Y \xrightarrow{apply} Z$ ako za bilo koji objekt $X \in Obj_c$ i morfizam $X \times Y \xrightarrow{g} Z$ postoji jedinstveni morfizam $X \xrightarrow{\lambda g} Z^Y$ t.d.
+    Neka je C kategorija koji ima produkt i neka su $Z, Y \in Obj_C$. \textbf{Eksponencijani objekt} je objekt $Z^Y$ koji ima svojstvo $Z^Y \times Y \xrightarrow{apply} Z$ ako za bilo koji objekt $X \in Obj_c$ i morfizam $X \times Y \xrightarrow{g} Z$ postoji jedinstveni morfizam $X \xrightarrow{\lambda g} Z^Y$ t.d.
     \begin{center}
       $X \times Y \xrightarrow{\lambda g \times Y} Z^Y \times Y \xrightarrow{apply} Z$ je $g$
     \end{center}
@@ -1091,49 +1107,56 @@
       $\lambda g(x)(y) = g(x, y)$
     \end{center}
   \begin{definition}
-    Za kategoriju C kažemo da je kartezijanski zatvorena kategorija, skračeno CCC (eng. Cartesian closed category), ako vrijedi:
+    Za kategoriju C kažemo da je \textbf{kartezijanski zatvorena kategorija}, skračeno \textbf{CCC} (eng. Cartesian closed category), ako vrijedi:
     \begin{itemize}
-      \item kategorija \category{C} sadrži inicijalni objekt,
-      \item za svaki par $A, B \in Obj_C$ postoji Kartezijev produkt $A \times B$ u C
+      \item kategorija \category{C} sadrži finalni objekt,
+      \item za svaki par $A, B \in Obj_C$ postoji Kartezijev produkt $A \times B$ u C, sa projekcijama $\pi_1 : A \times B \to A$ i $\pi_2 : A \times B \to B$
       \item za svaki par $A, B \in Obj_C$ postoji eksponencijal $B^A$ u C.
     \end{itemize}
   \end{definition}
   Primijetimo da smo i prethodnu tvrdnju mogli iskazati pomoću prethodno definirane kartezijeve kategorije; kartezijeva kategorija C je kartezijanski zatvorena kategorija, ukoliko za svaki par $A, B \in Obj_C$ postoji eksponencijal $B^A$ u C.
 
-  \primjer{Pokazali smo da je \category{Set} kategorija i da je $\emptyset$ inicijalni objekt za \cateogry{Set}. Postojanje eksponenta i njegove struktura je opisana  u 1.18. Pokažimo sad još da u \category{Set} postoji i kartezijev produkt.
+  \primjer{Pokazali smo da je \category{Set} kategorija i da je $\emptyset$ finalni objekt za \cateogry{Set}. Postojanje eksponenta i njegove struktura je opisana  u 1.18. Pokažimo sad još da u \category{Set} postoji i kartezijev produkt.
   \begin{itemize}
     \item Za $A, B \in Obj_\category{Set}$, $A \times B = \{ (a, b) | a \in A, b \in B \}$, tj. $A \times B$ je standardni kartezijevski produkt nad skupovima. 
   \end{itemize}
 
   Iz čega zaključujemo da je \category{Set} CCC.
   }
+  \begin{definition}
+    Parcijalno uređeni skup B zovemo \textbf{Booleanova algebra} ako:
+    \begin{itemize}
+      \item za sve $x, y \in B$ postoji supremum $x \vee y$
+      \item za sve $x, y \in B$ postoji infimum $x \wedge y$
+      \item za sve $x, y, z \in b$ vrijedi: $x \vee (y \wedge z) = (x \wedge y) \vee (x \wedge z)$
+      \item $B$ sadrži dva elementa, $0$ i $1$, gdje je $0$ najmanji element u B, a $1$ najveći
+      \item svaki element $x \in B$ ima \textbf{komplement} $\neg x$, tj. $x \wedge \neg x = 0$ i $x \vee \neg x = 1$
+    \end{itemize}
+      Za Booleanovu algebru $B$ kažemo još i da je trivijalna ako $1 = 0$.
+    \end{definition}
+  Pokažimo sada da kategorija koja odgovara Booleanovoj algebri, kategorija $\category{Pos(B)}$ gdje su objekti Booleanov algebre, CCC. 
+  \begin{example}
+    Neka je $\category{Pos(B)}$ kategorija koja odgovara Booleanovoj algebri. Pokažimo da ona zadovoljava svojstva CCC-a. Finalni objekt je 1, a prema definiciji Booleanove algebre, za svaka dva elementa postoji infimum, a prema \ref{pos:infimum}, to je dovoljan uvjet za postojanje produkta.
+
+    Preostalo nam je za svaki par $A, B \in Obj_{\category{Pos(B)}}$ pokazati postojanje eksponencijala $B^A$ u $\category{Pos(B)}$. Definiramo da je $B^A$ jednako $\neg A \vee B$. Da bi smo pokazali postojanje $apply$ morfizma, zahtjevamo pokazati da je i $B^A \wedge A \leq B$. Algebarskim računom dobivamo:
+    \begin{align*}
+      B^A \wedge A \leq B &= (\neg A \vee B) \wedge A\\
+                        &= (\neg A \wedge A) \vee (B \wedge A)\\
+                        &= 0 \vee (B \vee A)\\
+                        &= B \vee A \leq B \\
+    \end{align*}
+    Da bi smo pokazali egistenciju morfizma $\lambda$ moramo pokazati da vrijedi:
+    \begin{center}
+      Za $C \in Obj_{\category{Pos(B)}}$ ako vrijedi $C \wedge A \leq B$ da tada vrijedi $C \leq B^A$
+    \end{center}
+    Pretpostavimo da za $C \in Obj_{\category{Pos(B)}}$ vrijedi $C \wedge A \leq B$. Tada imamo
+    \begin{align*}
+      C &= C \wedge 1\\
+        &= C \wedge (A \vee \neg A)\\
+        &= (C \wedge A) \vee (A \wedge \neg A)\\
+        &\leq B \vee (A \wedge \neg A)\\
+        &\leq B \vee (\neg A) = B^A \\
+    \end{align*}
+
+  \end{example}
   \newpage
-
-
-  \section*{Literatura}
-  \begin{description}
-    \item[[1]]
-      Harold Simmons, An Introduction to Category Theory,
-      \url{http://www.cs.man.ac.uk/~hsimmons/zCATS.pdf}
-    \item[[2]]
-      Michael Barr and Charles Wells, Category Theory for Computing
-      Science,
-      \url{http://www.tac.mta.ca/tac/reprints/articles/22/tr22.pdf}
-    \item[[3]]
-      \url {https://en.wikibooks.org/wiki/Haskell/Category\_theory}
-    \item[[4]]
-      \url {https://wiki.haskell.org/Type}
-
-    \item[[5]] \label{bib:fast-loose}
-      Nils Anders Danielsson, John Hughes, Patrik Jansson, Jeremy Gibbons,
-Fast and Loose Reasoning is Morally Correct
-\url{http://www.cs.ox.ac.uk/jeremy.gibbons/publications/fast+loose.pdf}
-  \item[[6]]
-    \url{http://bartoszmilewski.com/2014/11/24/types-and-functions/}
-  \item[[7]]
-    \url{http://bartoszmilewski.com/2015/01/07/products-and-coproducts/}
-  \item[[8]]
-    \url{http://bartoszmilewski.com/2015/01/20/functors/}
-  \item[[9]]
-    Pierce, Benjamin C. (2002). Types and Programming Languages.
-  \end{description}
