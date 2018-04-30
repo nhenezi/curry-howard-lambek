@@ -1,4 +1,4 @@
-U ovom poglavlju dajemo pregled pojmova iz lamda racuna cije je razumjevanje nuzno kako bi se moglo definirati prosirenje iste, pomocu koje se uspostavlja bijekcija sa zatvorenim kartezijevim kategorijama (CCC). Definiramo pojmove kao stu su: jednostavne tipovi, termovi za lambda racun, supsitutcija, slobodne varijable itd.
+U ovom poglavlju dajemo pregled pojmova iz lamda računa čije je razumjevanje nužno kako bi se moglo definirati proširenje iste, pomoću koje se uspostavlja bijekcija sa kartezijanskim zatvorenim kategorijama (CCC). Definiramo pojmove kao što su: jednostavni tipovi, termovi za lambda račun, supsitutcija, slobodne varijable itd.
 
 \begin{definition}[Jednostavni tipovi]
   Neka je $T$ prebrojiv skup i $\to \, \in T \times T$.
@@ -37,7 +37,7 @@ U ovom poglavlju dajemo pregled pojmova iz lamda racuna cije je razumjevanje nuz
   \end{itemize}
 \end{definition}
 
-\begin{primjer}
+\begin{example}
   Na primjeru $f := (\lambda x y . x y z) (x) (y)$ demonstriramo primjenu slobodnih varijabli i supsitutcije.
   Radimo supsitutciju terma $a$ za varijablu $x$ u termu $f$.
   \begin{align*}
@@ -56,7 +56,7 @@ U ovom poglavlju dajemo pregled pojmova iz lamda racuna cije je razumjevanje nuz
           &= \{z\} \cup \{x\} \cup \{y\} \\
           &= \{x, y, z\}
   \end{align*}
-\end{primjer}
+\end{example}
 
 Gornjim primjerom imamo dva sintakticki razlicita terma, $ (\lambda x y . x y z) (x) (y)$ i  $(\lambda x y . x y z) (a) (y)$, no njihovo semanticko znacenje zelimo da bude identicno. Primjetimo takoder da
 \begin{center}
@@ -76,13 +76,13 @@ Posebno, spominjemo tri vrste konverzija:
   \item $\eta-$konverzija: $\lambda x^A . t x $ $cont_\eta$ $t$ $(x \not\in FV(t))$
 \end{itemize} 
 
-\begin{primjer}
+\begin{example}
   Neka je $g := (\lambda x y . x y z) (a) (y)$. Tada prema definiciji $\beta-$konverzije imamo
   \begin{equation*}
     (\lambda x y . x y z) (a) (y)\, cont_\beta \,(\lambda y. (x y z [x/a])) (y)  = (\lambda y.a y z) (y) cont_\beta \, a y z [y / y]  = a y z
   \end{equation*}
   Cime smo opravdali intuitivnu definiciju $\beta$-redukcije kao aplikaciju funkcije na sintakticnoj razini.
-\end{primjer}
+\end{example}
 
 Sada, mozemo definirati i semanticku jednakost termova, tj. jednakost po kojoj ce termovi $f$ i $g$ biti jednaki.
 
@@ -99,9 +99,9 @@ Sada, mozemo definirati i semanticku jednakost termova, tj. jednakost po kojoj c
   Za term $t \in T$ kazemo da je u \emph{normalnoj formi} ako ne sadrzi redeks. $t$ ima normalnu formu ako vrijedi $t \succeq s$ i $s$ je u normalnoj formi.
 \end{definition}
 
-\begin{primjer}
+\begin{example}
   Primjer terma i normalne forme. Bitnost normalne forme?
-\end{primjer}
+\end{example}
 
 \begin{definition}[Konfluentne relacije / Church-Rosser]
   Za relaciju $R$ kazemo da je \emph{konfluenta} (eng. confluent) ako za svaki $t_0, t_1, t_2 \in T$ za koji vrijedi $t_0 R t_1$ i $t_0 R T_2$, postoji $t_3 \in T$ takav da $t_1 R t_3$ i $t_2 R t_3$.
@@ -115,143 +115,5 @@ Sada, mozemo definirati i semanticku jednakost termova, tj. jednakost po kojoj c
   \end{center}
 \end{teorem}
 
-\begin{definition}[jednostavni tipizirani lambda racun]
-  Neka je $\lambda_\to$ skup jednostavnih tipova. Definiramo aksiome $\lambda_\to$ racuna.
-  \begin{enumerate*}
-  
-  \item \begin{center}$t \succeq t$\end{center}
-
-  \item \begin{center}$(\lambda x^A . t ^B)s^A \succeq t^b [x^a / s^a]$\end{center}
-
-  \item  \begin{prooftree}
-      \AxiomC{$t \succeq s$}
-      \UnaryInfC{$rt \succeq rs$}
-    \end{prooftree}
-
-  \item
-    \begin{prooftree}
-      \AxiomC{$t \succeq s$}
-      \UnaryInfC{$tr \succeq sr$}
-    \end{prooftree}
-
-  \item
-    \begin{prooftree}
-      \AxiomC{$t \succeq s$}
-      \UnaryInfC{$\lambda x . t \succeq \lambda x .s $}
-    \end{prooftree}
-
-  \item
-    \begin{prooftree}
-      \AxiomC{$t \succeq s$}
-      \AxiomC{$s \succeq r$}
-      \BinaryInfC{$t \succeq r$}
-    \end{prooftree}
-
-
-  \item
-    \begin{prooftree}
-      \AxiomC{$t \succeq s$}
-      \UnaryInfC{$t = s$}
-    \end{prooftree}
-
-  \item
-    \begin{prooftree}
-      \AxiomC{$t = s$}
-      \UnaryInfC{$s = t$}
-    \end{prooftree}
-
-  \item
-    \begin{prooftree}
-      \AxiomC{$t = s$}
-      \AxiomC{$s = r$}
-      \BinaryInfC{$t = r$}
-    \end{prooftree}
-
-  \end{enumerate*}
+\begin{definition}[tipizirani lambda racun \lambda]
 \end{definition}
-
-
-\begin{definition}[Termovi tipizirane kombinatorne logike $CL_\to$]
-  Induktivno definiramo termove kao i za $\lambda_\to$:
-  \begin{itemize}
-    \item za svaki $A \in T_\to$ postoji prebrojivo variabli tipa A: $x^A, y^A, z^A$, a svaka varijabla tipa $A$ je ujedno i term tipa $A$
-    \item Za sve $A, B, C \in T$ postoje konstatni termovi (konstante)
-      \begin{equation*}
-        k^{A, B} \in A \to (B \to A)
-      \end{equation*}
-      \begin{equation*}
-        s^{A, B, C} \in (A \to (B \to C)) \to ((A \to B) \to (A \to C))
-      \end{equation*}
-    \item ako je $t^{A \to B}$ i $s^A$ tada je $App(t^{A \to B}, s^a) ^B$ term tipa $B$
-  \end{itemize}
-
-\end{definition}
-
-Napisati iskaze teorema i definirati sve sto se spominje u iskazu.
-Zadnja 3-4 teorema - coherence theorems
-
-conversum - kontraktum
-koristiti redukciju
-\begin{definition}[tipizirana kombinatorna logike $CL_\to$]
-  Raspisati aksiome identicne kao i za $\lambda_\to$ nakon sto se prilagodi nekom citljivijem formatu (mozda u dva stupca?)
-\end{definition}
-\section{labda to ccc}
-
-\begin{definition}
-  calculus $\lambda \eta_{\to \top \bot}$
-\end{definition}
-
-\begin{definition}
-  Kombinator, $\top$ kombinator
-\end{definition}
-
-\begin{definition}
-  A, B konjukcija prop varijabli.
-  $\xi_{AB}:A \implies B
-\end{definition}
-
-\begin{definition}
-  $\Theta, \Theta', \overline{\Theta}, \overline{\Theta'}$, $\xi_{\Theta, \Theta}$
-\end{definition}
-
-\begin{lema}
-  preslikavanje $r$, strelice iz ccc u tipizirane termove
-\end{lema}
-
-\begin{lema}
-  preslikavanje $\sigma$, tipizirani termovi u strelice u ccc
-\end{lema}
-
-\begin{lema}
-  preslikavanje $r$ cuva jednakost izmedu kombinatora
-\end{lema}
-
-\begin{lema}
-  preslikavanje $\sigma$ invarijantno na $\beta$ redukciju
-\end{lema}
-
-\begin{lema}
-  preslikavanje $\sigma$ cuda $\beta\eta$ jednakost
-\end{lema}
-
-
-\section{Coherence teorem}
-\begin{definition}
-  balansirana $\top \to$ formula
-\end{definition}
-
-\begin{teorem}
-  Coherence teorem
-\end{teorem}
-
-\begin{definition}
-  2-sequent
-\end{definition}
-
-\begin{teorem}
-  Coherence teorem za 2-sequente
-\end{teorem}
-
-\begin{teorem}
-  Redukcija na 2-sequent
-\end{teorem}

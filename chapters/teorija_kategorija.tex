@@ -1,45 +1,53 @@
   U ovom poglavlju definiramo kategorije i detaljno raspisujemo nekoliko
   primjera kategorija. 
-  U točki "Dijagram" uvodimo koncept dijagrama i tehniku "praćenja
+  Pod naslovom "Dijagram" uvodimo koncept dijagrama i tehniku "praćenja
   dijagrama" koja olakšava neka razmatranja u teoriji kategorija.
-  Iduće točke posvećujemo  "strelicama" i "objektima". Pritom navodimo nekoliko
-  posebnih slučajava, proučavamo njihove strukture i izdvajamo nekoliko nama
-  zanimljivih slučajeva.
-  U posljednjoj točki ovog poglavlja bavimo se preslikavanjem između kategorija i
-  demonstriramo praktičnu primjenu kategorije teorija u funkcijskom programskom jeziku Haskell.
+  Idući naslov posvećujemo  strelicama i objektima, navodimo nekoliko
+  posebnih slučajava, proučavamo njihove strukture i izdvajamo nekoliko nama zanimljivih primjera.
+  U posljednjem naslovu ovog poglavlja bavimo se preslikavanjem između kategorija i
+  demonstriramo praktičnu primjenu teorije kategorija u funkcijskom programskom jeziku Haskell.
 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%
   %% Definicija Kategorije %%
   %%%%%%%%%%%%%%%%%%%%%%%%%%%
-  \section{Kategorije}
-  Teorija kategorije proučava "objekte" i "preslikavanja" između
+  \section{Definicije i osnovni primjeri}
+  Teorija kategorije proučava objekte i preslikavanja između
   njih. Objekti i preslikavanja su primitivni objekti u teoriji kategorija i
   njih ne definiramo. Objekti ne moraju biti kolekcije elemenata i
   preslikavanja ne moraju biti funkcije na skupovima.
   U ovom poglavlju definiramo kategorije i detaljno raspisujemo nekoliko
   primjera.
+
+  Zbog preglednosti uvodimo novu oznaku za preslikavanje.
+  Neka su $A$ i $B$ dvije klase. Preslikavanje $f$, koje svakom $a \in A$ pridružuje jedinstveni $b \in B$ označavamo
+  sa $A \xrightarrow{f} B$. Neka je $C$ proizvoljna klasa i $B \xrightarrow{g} C$, tada sa $A \xrightarrow{f} B \xrightarrow{g} C$
+  označavamo kompoziciju preslikavanja $f$ i $g$. Ponekad, zbog jednostavnosti nećemo imenovati preslikavanje i pisati ćemo samo $B \xrightarrow{} C$.
+
   \begin{definition}\ \\
   
-	\noindent Kategorija $G$ sastoji se od:
+	\noindent Kategorija \category{G} sastoji se od:
     \begin{itemize}
-      \item klase objekata $Obj$
-      \item klase strelica $Arw$
-      \item preslikavanja $Arw \xrightarrow{source} Obj$
-      \item preslikavanja $Arw \xrightarrow{target} Obj$
-      \item preslikavanja (identitete) $Obj \xrightarrow{id} Arw$ takvog da
-      za $B \xrightarrow{id} id_B$ vrijedi:
+      \item klase $Obj_\category{G}$ čije elemente nazivamo objekti kategorije \category{G}
+      \item klase $Arw_\category{G}$ čije elemente nazivamo strelice kategorije \category{G}
+      \item preslikavanja $Arw_\category{G} \xrightarrow{source} Obj_\category{G}$
+      \item preslikavanja $Arw_\category{G} \xrightarrow{target} Obj_\category{G}$
+      \item preslikavanja $Obj_\category{G} \xrightarrow{id} Arw_\category{G}$ koje svakom $B \in Obj_\category{G}$ pridružuje strelicu $id_B$
+         i vrijedi:
         \begin{equation*}
           target(id_B) = source(id_B) = B
         \end{equation*}
-      \item preslikavanja (kompozicije) $Arw \times Arw \xrightarrow{\circ}
-      Arw$ takvog da za \\ $(f, g) \xrightarrow{\circ} f \circ g$ vrijedi:
+        Preslikavanje $id$ nazivamo identiteta kategorije \category{G}.
+
+      \item preslikavanja $Arw_\category{G} \times Arw_\category{G} \xrightarrow{\circ} Arw_\category{G}$ takvog da za svaki $f, g \in Arw_\category{G}$
+         vrijedi:
         \begin{align*}
           source(f) &= target(g) \\
           source(f \circ g) &= source(g) \\
           target(f \circ g) &= target(f)
         \end{align*}
-    \end{itemize}
-    
+        Preslikavanje $\circ$ zovemo kompozicija strelica u \category{G}.
+
+   
     Preslikavanje identiteta ($id$) i kompozicija ($\circ$) moraju
     zadovoljavati:
     \begin{itemize}
@@ -49,15 +57,14 @@
         \end{align*}
       \item svojstvo asocijativnost: za sve strelice $A \xrightarrow{f} B
       \xrightarrow{g} C \xrightarrow{h} D$ vrijedi:
-        \begin{align*} \label{def:kat_assoc}
+        \begin{align} \label{def:kat_assoc}
           (h \circ g) \circ f = h \circ (g \circ f)
-        \end{align*}
+        \end{align}
     \end{itemize}
   \end{definition}
-  Kada želimo posebno naglasiti kojoj kategoriji pripadaju strelice i objekti
-  onda ćemo umjesto $Obj$ i $Arw$ pisati $Obj_G$ i $Arw_G$.
   Za $A, B \in Obj_G$ skup svih strelica sa $A$ u $B$ označavamo sa
   \category{G}$[A, B]$.
+  Ukoliko je kategorija jednistveno određena, tada ćemo umjesto $Obj_\category{G}$ i $Arw_\category{G}$ pisati samo $Obj$ i $Arw$.
   Sada ćemo detaljno raspisati nekoliko primjera kategorija.\\
 
   %%%%%%%%%%%%%%%%%%%%
@@ -66,7 +73,7 @@
   \begin{example}\ \\
    
     \noindent \textbf{Monoid} je uređena trojka $(M, \cdot_M, 1_M)$ gdje je $M$ skup, $1_M
-    \in M$, $\cdot_M$ binarna operacija na $M$ za koju vrijedi da za svaki $a, b, c \in M$:
+    \in M$, $\cdot_M$ binarna operacija na $M$ za koju vrijedi da za svaki $a, b, c \in M$ imamo:
     \begin{equation*}
       (a \cdot_M b) \cdot_M c = a \cdot_M (b \cdot_M c)
     \end{equation*}
@@ -119,12 +126,12 @@
   %%%%%%%%%%%%%%%%%%%%
   \begin{example}\ \\
   
-   \noindent Neka je $S$ skup i $\leq_S \subseteq S \times S$ relacija na $S$. Uređeni par $(S,
+   \noindent Neka je $S$ skup i $\leq_S$ binarna relacija na $S$. Uređeni par $(S,
     \leq_S)$ zovemo \textbf{parcijalno uređeni skup} ako za svaki $a, b, c \in S$
     vrijedi:
     \begin{itemize}
       \item $a \leq_S a$ (refleksivnost)
-      \item ako $a \leq_S b$ i $b \leq_S a$ tada $a = b$ (anti-simetričnost)
+      \item ako $a \leq_S b$ i $b \leq_S a$ tada $a = b$ (antisimetričnost)
       \item ako $a \leq_S b$ i $b \leq_S c$ tada $a \leq_S c$ (tranzitivnost)
     \end{itemize}
     Radi kraćeg zapisa pisat ćemo samo $\leq$ umjesto $\leq_S$ i
@@ -147,7 +154,7 @@
     a \leq b \implies (g \circ f)(a) \leq (g \circ f)(b)
   \end{equation*}
   Identiteta na parcijalno uređenom skupu $S$ definirana je kao standardna
-  funkcijska identiteta. Kao i u prethodnom primjeru pokaže se da vrijedi:
+  funkcijska identiteta. Kao i u prethodnom primjeru lako se pokaže da vrijedi:
   \begin{equation*}
     (id_R) \circ f = f = f \circ id_S
   \end{equation*}
@@ -159,12 +166,12 @@
   \end{example}
 
   \begin{definition}
-    \textbf{Gornja međa} podskupa $T$ parcijalno uređenog skupa $(S, \leq)$ je $v \in S$ t.d. $\forall t \in T, t \leq v$
+    Neka je $(S, \leq)$ parcijalno uređen skup i $T \subseteq S$.
+    Za $v \in S$ kažemo da je \textbf{gornja međa} skupa $T$ ako za svaki $t \in T$ vrijedi $t \leq v$. Ukoliko za svaki $w \in S$ takav da je $t \leq w$ vrijedi  $v \leq w$ tada $v$ nazivamo
+    \textbf{supremum} ili \textbf{najmanja gornja međa} skupa $T$
+
     \end{definition}
-  \begin{definition}
-    \textbf{Supremum} ili \textbf{najmanja gornja međa} podskupa $T$ parcijalno uređenog skupa $(S, \leq)$ je $v \in S$ t.d. je $v$ gornja međa skupa $T$ i vrijedi: ako $w \in S$ ima svojstvo da je $t \leq w$ za svaki $t \in T$, tada je $v \leq w$.
-    \end{definition}
-  
+ 
   %%%%%%%%%%%%%
   %% Haskell %%
   %%%%%%%%%%%%%
@@ -184,10 +191,8 @@
 
   Haskellove funkcije ne možemo poistovjetiti s matematičkim funkcijama jer
   Haskellove funkcije trebaju izvršiti neki kod - što nije problem ukoliko se
-  može doći do rezultata u konačno mnogo koraka, ali ponekad to nije slučaj. Zbog "Halting
-  problema"\footnote{Ako je zadan program i ulaz za taj program, odredite hoće
-    li računanje tog program stati.
-    \url{http://mathworld.wolfram.com/HaltingProblem.html}} ne možemo se
+  može doći do rezultata u konačno mnogo koraka, ali ponekad to nije slučaj. Zbog Halting
+  problema ne možemo se
   ograničiti samo na funkcije kod kojih se može doći do rezultata u konačno
   mnogo koraka pa se u svaki Haskellov tip dodaje posebna vrijednost: ⊥ (dno).
   Ona označava da računanje neće stati, pa tako funkcija $f:
@@ -199,24 +204,23 @@
   zovemo parcijalne funkcije.
   Zbog specijalnog znaka ⊥ kategoriju Haskellovih funkcija i tipova razlikujemo
   od \category{Set} i označavamo sa \category{Hask}. Tom distinkcijom dolazimo
-  do nekih komplikacija \footnote{seq - \url{https://wiki.haskell.org/Seq}}
-  ali su Nils Anders Danielsson, John Hughes, Patrik Jansson i Jeremy Gibbons
-  u \textit{Fast and Loose Reasoning is Morally Correct} (\ref{bib:fast-loose}) pokazali
-  da za potrebe ovog rada možemo ignorirati znak ⊥ i njegove posljedice. Uzevši to u obzir, dajemo idealiziranu definiciju \category{Hask}-a.\\
+  do nekih komplikacija
+  ali su Nils Anders Danielsson, John Hughes, Patrik Jansson i Jeremy Gibbons  pokazali
+  da za potrebe ovog rada možemo ignorirati znak ⊥ i njegove posljedice. Uzevši to u obzir, dajemo idealiziranu definiciju kategorije \category{Hask}.\\
   %%%%%%%%%%%%%%%%%%%%%
   %% Hask Kategorija %%
   %%%%%%%%%%%%%%%%%%%%%
   
 	\begin{example}\ \\
 	
-  \noindent \category{Hask} je kategorija Haskellovih tipova i funkcija. U
-  \category{Hask} kategoriji objekti su Haskellovi tipovi koje označavamo velikim
+  \noindent Kategorija \category{Hask} je kategorija Haskellovih tipova i funkcija. U
+  kategoriji \category{Hask} objekti su Haskellovi tipovi koje označavamo velikim
   slovima:
   \code{A, B, C, ...}.
-  Strelice u \category{Hask}-u su Haskellove funkcije koje označavamo malim
+  Strelice u kategoriji \category{Hask} su Haskellove funkcije koje označavamo malim
   slovima:
   \code{f, g, h, ...}.
-  Strelicu $A \xrightarrow{f} B$ u \category{Hask}-u zapisujemo:
+  Strelicu $A \xrightarrow{f} B$ u kategoriji \category{Hask} zapisujemo:
   \code{f :: A -> B}.
   Funkcije
   \code{
@@ -229,7 +233,7 @@
     i definiramo kao standardnu funkcijsku kompoziciju, tj.:
     \code{(f.g) x = f (g x)}
   pa se lako pokaže da vrijedi svojstvo asocijativnosti.
-  Identiteta u \category{Hask}-u dana je funkcijom:
+  Identiteta u kategoriji \category{Hask} dana je funkcijom:
     \code{ id x = x }
   te se lako vidi da vrijedi:
     \code{ id.f = f = id.f }.\\
@@ -240,7 +244,7 @@
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	\begin{example}\ \\
 	
-    \noindent Pokažimo sada primjer neke kategorije $G$ gdje su objekti konačni skupovi,
+    \noindent Pokažimo sada primjer neke kategorije \category{G} gdje su objekti konačni skupovi,
     a strelica između objekata ne mora biti uobičajena funkcija.\\
     Neka su $A, B$ konačni skupovi, strelica $A \xrightarrow{f} B$ je
     proizvoljna funkcija: $f:A \times B \rightarrow \mathbb{R}$
@@ -257,18 +261,18 @@
   %%%%%%%%%%%%%%%%%%%%%%%
 	\begin{example}\ \\
 	
-    \noindent Neka je $G$ neka kategorija. Tada definiramo kategoriju $G^{op}$ koja ima
-    iste objekte kao i $G$, a za svaku strelicu $A \xrightarrow{f} B$ u $G$ 
-    dana je dualna strelica $B \xrightarrow{f^{op}} A$ u $G^{op}$.
+    \noindent Neka je \category{G} neka kategorija. Tada definiramo kategoriju $\category{G}^{op}$ koja ima
+    iste objekte kao i \category{G}, a za svaku strelicu $A \xrightarrow{f} B$ u $G$ 
+    dana je dualna strelica $B \xrightarrow{f^{op}} A$ u $\category{G}^{op}$.
     Za strelice $A \xrightarrow{f} B \xrightarrow{g} C$ kompozicija strelica
-    u $G^{op}$ definirana je sa:
+    u $\category{G}^{op}$ definirana je sa:
     \begin{equation*}
       f^{op} \circ^{op} g^{op} = (g \circ f)^{op}
     \end{equation*}
-    Pokažimo da tako definirana struktura $G^{op}$ zadovoljava svojstvo
+    Pokažimo da tako definirana struktura $\category{G}^{op}$ zadovoljava svojstvo
     asocijativnosti i identiteta, tj. da je tako zadana struktura stvarno
     kategorija.
-    Neka su $A \xrightarrow{f} B \xrightarrow{g} C \xrightarrow{h} D$, tada je:
+    Neka su $A \xrightarrow{f} B \xrightarrow{g} C \xrightarrow{h} D$, tada radom vrijedi:
     \begin{equation*}
       id^{op}_B \circ^{op} f^{op} = (id_B \circ f)^{op} = (f \circ id_A)^{op} =
       f^{op}
@@ -282,7 +286,7 @@
       &= h^{op} \circ^{op} (g \circ f)^{op}\\
       &= h^{op} \circ^{op} (g^{op} \circ^{op} f^{op})
     \end{align*}
-    Pa je $G^{op}$ kategorija.\\
+    Pa je \category{G^{op}} kategorija.\\
 \end{example}
 
 \noindent U kasnijim razmatranjima bit će nam potreban pojam podkategorije.\\
@@ -293,11 +297,11 @@
     \category{C} ako vrijedi
     \begin{itemize}
       \item $Obj_\category{G} \subseteq Obj_\category{C}$
-      \item za sve $A, B \in \category{G}, \category{G}[A, B] \subseteq
+      \item za sve $A, B \in \category{G} vrijedi \category{G}[A, B] \subseteq
         \category{C}[A, B]$
-      \item kompozicija i identitata su jednaki u \category{G} i \category{C}
+      \item preslikavanje kompozicija i identitata su jednaki u \category{G} i \category{C}
     \end{itemize}
-    Kažemo da je podkategorija \textbf{puna} ako za svaki $A, B \in \category{G}$ vrijedi
+    Kažemo da je podkategorija \category{C} \textbf{puna} ako za svaki $A, B \in \category{G}$ vrijedi
     $\category{G}[A, B] = \category{C}[A, B]$\\
     
   \end{definition}
@@ -335,8 +339,12 @@
   \begin{align*}
     g \circ f = h
   \end{align*}
-  tada kažemo da dijagram \textbf{komutira}.
-  Zakon asocijativnosti za $f, g, h$ dijagramom možemo prikazati kao:
+  tada kažemo da dijagram \textbf{komutira}. Neka su $f, g, h \in Arw_G$.
+  Svojstvo asocijativnosti
+  \begin{align*}
+    (h \circ g) \circ f = h \circ (g \circ f)
+  \end{align*}
+   za strelice $f, g, h$ možemo prikazati i dijagramom:
   \begin{center}
     \begin{tikzpicture}[every node/.style={midway}]
       \matrix[column sep={5em,between origins}, row sep={2em}] at (0,0)
@@ -347,6 +355,8 @@
       \draw[->] (A) -- (B) node[anchor=south] {$f$};
       \draw[->] (B) -- (C) node[anchor=north] {$g$};
       \draw[->] (C) -- (D) node[anchor=north] {$h$};
+      \draw[->] (A) -- (C) node[anchor=east] {$g \circ f$};
+      \draw[->] (B) -- (D) node[anchor=west] {$h \circ g$};
     \end{tikzpicture}
   \end{center}
 
@@ -394,16 +404,15 @@
     \noindent Pokažimo za prethodni dijagram da ukoliko unutarnji trokuti
     komutiraju, tada vanjska ćelija komutira tj. ako vrijedi: $h \circ f = k$ i $ l \circ h = g$.
     Tada vrijedi: $g \circ f = l \circ k$.\\
-    Pokažimo to algebarski:$g \circ f = (l \circ h) \circ f \overset{(\ref{def:kat_assoc})}{=} l \circ (h \circ f) = l \circ k$.
-    Tehnikom praćenja dijagrama i uočavanjem da su neke kompozicije jednake
-    imamo:
+    Pokažimo to algebarski: $g \circ f = (l \circ h) \circ f \overset{(\ref{def:kat_assoc})}{=} l \circ (h \circ f) = l \circ k$.
+    Tehnikom praćenja dijagrama i uočavanjem da su neke kompozicije jednake imamo:
     \begin{center}
       \begin{tikzpicture}[every node/.style={midway}]
         \matrix[column sep={3em,between origins}, row sep={1em}, ampersand replacement=\&] at (0,0)
         {
           \& \node(B) {$\bullet$}; \&\&\&\& \node(E) {$\bullet$}; \&\&\&\&\&\\
-          \node(A) {$\bullet$}; \&\& \node(C) {$\bullet$}; \& \node(EQ1) {$=$};
-          \& \node(D) {$\bullet$}; \&\& \node(G) {$\bullet$}; \& \node(EQ2) {$=$};
+          \node(A) {$\bullet$}; \&\& \node(C) {$\bullet$}; \& \node(EQ1) {$\overset{(g = l \circ h)}{=}$};
+          \& \node(D) {$\bullet$}; \&\& \node(G) {$\bullet$}; \& \node(EQ2) {$\overset{(k = h \circ f)}{=}$};
           \& \node(I) {$\bullet$}; \&\& \node(K) {$\bullet$};\\
           \&\&\&\&\& \node(F) {$\bullet$}; \&\&\&\& \node(J) {$\bullet$}; \& \\
         };
@@ -423,8 +432,8 @@
   intuitivnije može objasniti komutacija dijagrama.\\
 
 \begin{example}\ \\
-
-    \noindent Ako u dijagramu:
+  U ovom primjeru želimo istaknuti prednosti tehnike pračenja dijagrama kod kompleksnijih dijagrama naspram algebraskog pristupa.
+  Zadan je slijedeći dijagram:
     \begin{center}
       \begin{tikzpicture}[every node/.style={midway}]
         \matrix[column sep={3em,between origins}, row sep={2em}, ampersand replacement=\&] at (0,0)
@@ -445,21 +454,87 @@
       \end{tikzpicture}
     \end{center}
 
-    \noindent komutiraju četiri unutarnja trokuta, pokažimo da komutira i vanjska
-    ćelija. Cilj nam je pokazati da vrijedi: $h \circ g \circ f = l \circ k$.\\
-    
-    \noindent Algebarski: $h \circ g \circ f = h \circ (n \circ m) \circ f = (h \circ n) \circ (m \circ f) = j \circ i = l \circ k$.\\
-      
-    \noindent Pokažimo to tehnikom praćenja dijagrama.
+    \noindent Pretpostavimo da u prethdnom dijagramu komutiraju četiri unutarnja trokuta:
+
+    \begin{center}
+      \begin{tikzpicture}[every node/.style={midway}]
+        \matrix[column sep={3em,between origins}, row sep={2em}, ampersand replacement=\&] at (0,0)
+        {
+          \& \node(B) {$\bullet$};\&  \\
+          \node(A) {$\bullet$}; \&\& \node(E) {$\bullet$}; ;\\
+          \&\& ; \\
+        };
+      \draw[->] (A) -- (B) node[anchor=south] {$f$};
+      \draw[->] (A) -- (E) node[anchor=south] {$i$};
+      \draw[->] (B) -- (E) node[anchor=south] {$m$};
+      \end{tikzpicture}
+
+      \begin{tikzpicture}[every node/.style={midway}]
+        \matrix[column sep={3em,between origins}, row sep={2em}, ampersand replacement=\&] at (0,0)
+        {
+          \& \node(B) {$\bullet$};\&\&  \node(C) {$\bullet$}; \&\\
+          \&\& \node(E) {$\bullet$}; \&\&;\\
+        };
+      \draw[->] (B) -- (C) node[anchor=south] {$g$};
+      \draw[->] (B) -- (E) node[anchor=south] {$m$};
+      \draw[->] (E) -- (C) node[anchor=south] {$n$};
+      \end{tikzpicture}
+
+      \begin{tikzpicture}[every node/.style={midway}]
+        \matrix[column sep={3em,between origins}, row sep={2em}, ampersand replacement=\&] at (0,0)
+        {
+          \&  \node(C) {$\bullet$}; \&\\
+           \node(E) {$\bullet$}; \&\& \node(D) {$\bullet$};\\
+        };
+      \draw[->] (C) -- (D) node[anchor=south] {$h$};
+      \draw[->] (E) -- (D) node[anchor=south] {$j$};
+      \draw[->] (E) -- (C) node[anchor=south] {$n$};
+      \end{tikzpicture}
+
+
+      \begin{tikzpicture}[every node/.style={midway}]
+        \matrix[column sep={3em,between origins}, row sep={2em}, ampersand replacement=\&] at (0,0)
+        {
+          \node(A) {$\bullet$}; \&\& \node(E) {$\bullet$}; \&\& \node(D) {$\bullet$};\\
+          \&\& \node(F) {$\bullet$}; \&\&\\
+        };
+      \draw[->] (A) -- (E) node[anchor=south] {$i$};
+      \draw[->] (E) -- (D) node[anchor=south] {$j$};
+      \draw[->] (A) -- (F) node[anchor=north] {$k$};
+      \draw[->] (F) -- (D) node[anchor=north] {$l$};
+      \end{tikzpicture}
+
+    \end{center}
+
+
+    Pokažimo da komutira i vanjska ćelija.
+
+    \begin{center}
+      \begin{tikzpicture}[every node/.style={midway}]
+        \matrix[column sep={3em,between origins}, row sep={2em}, ampersand replacement=\&] at (0,0)
+        {
+          \& \node(B) {$\bullet$};\&\&  \node(C) {$\bullet$}; \&\\
+          \node(A) {$\bullet$}; \&\& \&\& \node(D) {$\bullet$};\\
+          \&\& \node(F) {$\bullet$}; \&\&\\
+        };
+      \draw[->] (A) -- (B) node[anchor=south] {$f$};
+      \draw[->] (B) -- (C) node[anchor=south] {$g$};
+      \draw[->] (C) -- (D) node[anchor=south] {$h$};
+      \draw[->] (A) -- (F) node[anchor=north] {$k$};
+      \draw[->] (F) -- (D) node[anchor=north] {$l$};
+      \end{tikzpicture}
+    \end{center}
+
+    \noindent Koristeći tehniku praćenja dijagrama, imamo:
     \begin{center}
       \begin{tikzpicture}[every node/.style={midway}]
         \matrix[column sep={3em,between origins}, row sep={2em}, ampersand replacement=\&] at (0,0)
         {
           \node(EQ3) {$\quad$}; \&\& \node(B) {$\bullet$};\&\&  \node(C) {$\bullet$}; \&\&
           \&\& \node(B1) {$\bullet$};\&\&  \node(C1) {$\bullet$}; \&\\
-          \&\node(A) {$\bullet$}; \&\& ; \&\& \node(D) {$\bullet$}; \& \node(EQ1) {$=$};
+          \&\node(A) {$\bullet$}; \&\& ; \&\& \node(D) {$\bullet$}; \& \node(EQ1) {$\overset{g = n \circ m}{=}$};
           \& \node(A1) {$\bullet$}; \&\& \node(E1) {$\bullet$}; \&\& \node(D1)
-          {$\bullet$}; \& \node(EQ2) {$=$};\\
+            {$\bullet$}; \& \node(EQ2) {$\overset{i = m \circ f, j = h \circ n}{=}$};\\
         };
       \draw[->] (A) -- (B) node[anchor=south] {$f$};
       \draw[->] (B) -- (C) node[anchor=south] {$g$};
@@ -477,7 +552,7 @@
         \matrix[column sep={3em,between origins}, row sep={2em}, ampersand replacement=\&] at (0,0)
         {
           \node(EQ2) {$=$}; \& \node(A) {$\bullet$}; \&\& \node(E) {$\bullet$}; \&\& \node(D)
-          {$\bullet$}; \& \node(EQ1) {$=$};
+          {$\bullet$}; \& \node(EQ1) {$\overset{j \circ i = l \circ k}{=}$};
           \& \node(A1) {$\bullet$}; \&\& \&\& \node(D1) {$\bullet$}; \&\\
           \&\&\&\&\&\&\&\&\& \node(F1) {$\bullet$}; \&\&\\
         };
@@ -496,33 +571,46 @@
   \section{Monoik i epik}
   U ovom poglavlju proširujemo terminologiju i proučavamo posebne slučajeve
   strelica kako bismo došli do definicije izomorfizma.\\
-  
+
+  \begin{definition}\ \\
+
+    \noindent Neka je \category{G} proizvoljna kategorija $A, B \in Obj_G$. Tada umjesto eksplicitnog definiranja dvije strelice sa istom domenom i kodomenom, $A \xrightarrow{f} B$  i $A \xrightarrow{g} B$,
+    pišemo $ A \xbigtoto[g]{f} B$.
+  \end{definition}
+
   \begin{definition}\ \\
   
-    \noindent U proizvoljnoj kategoriji \category{G} strelicu: $B \xrightarrow{m} A$
+    \noindent Neka je \category{G} proizvoljna kategorija. Strelicu $B \xrightarrow{m} A$
     za koju vrijedi da za svaki par strelica
      $ X \xbigtoto[g]{f} B$
-    vrijedi: $m \circ f = m \circ g \implies f = g$
+    vrijedi:
+    \begin{center}
+    ako je $m \circ f = m \circ g$ tada $f = g$
+    \end{center}
     zovemo \textbf{monoik}.\\
   \end{definition}
   
 \begin{example}\ \\
 
-    \noindent Neka je \category{G} neka kategorija na skupovima i neka su strelice
-    totalne funkcije između skupova.
-    Ako je $B \xrightarrow{m} A$ injektivna (kao funkcija) tada je $m$ monoik (kao
-    strelica). Pokažimo to.\\    
-    \noindent Pretpostavimo da vrijedi: $ m \circ f = m \circ g$ \label{me:pr:1}
+  \label{mon:pr:1}
+    \noindent Neka je \category{G} neka kategorija čiji objekti su skupovi i neka su strelice
+    $B \xrightarrow{m} A$ totalne funkcije između skupova.
+    Ako je funkcija $m: B \to A$ injektivna, tada je i strelica $B \xrightarrow{m} A$ monoik. Pokažimo to.\\    
+    \noindent Pretpostavimo da vrijedi $ m \circ f = m \circ g$ \label{me:pr:1}
     za neki paralelni par strelica $A \xbigtoto[g]{f} B$. Kako su $f$ i $g$ totalne funkcije dovoljno je pokazati da za svaki $x \in X$ vrijedi: $f(x) = g(x)$. Imamo:
-     $m(f(x)) = (m \circ f)(x) \overset{(\ref{me:pr:1})}{=} (m \circ g)(x) = m(g(x))$.
+     $m(f(x)) = (m \circ f)(x) \overset{}{=} (m \circ g)(x) = m(g(x))$.
     No, kako je $m$ injektivna za $a, b \in B$ imamo:
-     $m(a) = m(b) \implies a = b$
+     ako vrijedi $m(a) = m(b)$ tada vrijedi $a = b$,
    	pa je $m$ monoik.\\
 \end{example}
 
   \begin{definition}\ \\
   
-    \noindent U proizvoljnoj kategoriji \category{G} strelicu: $A \xrightarrow{e} B$ za koju vrijedi da za svaki par strelica $B \xbigtoto[g]{f} X$ vrijedi: $f \circ e = g \circ e \implies f = g$ zovemo \textbf{epik}.
+    \noindent Neka je \category{G} proizvoljna kategorija. Strelicu $A \xrightarrow{e} B$ za koju vrijedi da za svaki par strelica $B \xbigtoto[g]{f} X$ vrijedi:
+    \begin{center}
+      ako vrijedi $f \circ e = g \circ e$ tada je $f = g$
+    \end{center}
+      zovemo \textbf{epik}.
   \end{definition}
   
   Pokažimo sada na sličnom primjeru kao i ranije kako se epik ponaša na
@@ -530,33 +618,27 @@
 
 \begin{example}\ \\
 	
-	\noindent Neka je \category{G} neka kategorija na skupovima i neka su strelice
-    totalne funkcije između skupova.
-    Ako je $A \xrightarrow{e} B$ surjektivna (kao funkcija) tada je epik (kao
-    strelica).
-    Pretpostavimo da vrijedi:
-    \begin{align*} \label{me:pr:2}
-      f \circ e = g \circ e
-    \end{align*}
-    za neki paralelni par strelica
-    \begin{align*}
-      B \xbigtoto[g]{f} X
-    \end{align*}
-    Kako su $f$ i $g$ totalne funkcije dovoljno je pokazati da za $x \in X$
+  \label{mon:pr:2}
+	\noindent Neka je \category{G} neka kategorija čiji elementi su skupovima i neka su strelice
+    $A \xrightarrow{e} B$ totalne funkcije između skupova.
+    Ako je funkcija $e: A \to B$ surjektivna, tada je strelica $A \xrightarrow{e} B$ tada je epik.
+    Pretpostavimo da vrijedi: $f \circ e = g \circ e$ za neki paralelni par strelica
+     $B \xbigtoto[g]{f} X$.
+    Kako su $f$ i $g$ totalne funkcije dovoljno je pokazati da za svaki $x \in B$
     vrijedi:
     \begin{align*}
       f(x) = g(x)
     \end{align*}
-    Kako je $e$ surjektivna znamo da za $b \in B$ postoji $a \in A$ takav da
+    Kako je $e$ surjektivna funkcija znamo da za svaki $b \in B$ postoji $a \in A$ takav da
     vrijedi:
     \begin{align*}
       b = e(a)
     \end{align*}
-    Imamo:
+    Tada za svaki $b \in B$ vrijedi:
     \begin{align*}
       f(b) = f(e(a)) = (f \circ e)(a) = (g \circ e)(a) = g(e(a)) = g(b)
     \end{align*}
-    Pa je $e$ epik.\\
+    pa je $e$ epik.\\
 \end{example}
 
     Prethodni primjeri pokazuju da za "dovoljno lijepe" kategorije vrijedi:
@@ -578,31 +660,41 @@
       tada $s$ nazivamo \textbf{sekcija}, a $r$ \textbf{retrakcija}.
     \end{definition}
     
-    Lako se pokaže da je svaka sekcija monoik i svaka retrakcija epik.
-    
     \begin{definition}\ \\
     
     \noindent \textbf{Bimorfizam} je strelica koja je monik i epik.\\
     \end{definition}
+    Analogno primjerima \ref{mon:pr:1} i \ref{mon:pr:2} se pokaže da u kategoriji čiji su elementi skupovi, bijektivne funkcije nad skupovima odgovaraju bimorfizmima.
+    Lako se pokaže da je svaka sekcija monoik i svaka retrakcija epik.
     
     \begin{definition}\ \\
     
     \noindent Za strelicu $A \xrightarrow{f} B$ kažemo da je \textbf{izomorfizam} ako
     postoji strelica $B \xrightarrow{g} A$ takva da vrijedi:
       \begin{align*}
-        g \circ f = id_A \wedge f \circ g = id_B
+        g \circ f = id_A \,\, i \,\, f\circ g = id_B
       \end{align*}
     \end{definition}
     
     \begin{definition}\ \\
     
-    \noindent Za dva objekta $A$ i $B$ kažemo da su \textbf{izomorfni} ako postoji izomorfizam
+    \noindent Neka je \category{G} proizvoljna kategorija. Za $A, B \in Obj_G$ kažemo da su \textbf{izomorfni} ako postoji izomorfizam
     $A \xrightarrow{} B$.\\
     \end{definition}
 
     Lako se pokaže da ukoliko je strelica sekcija i epik ili retrakcija i
     monoik tada je i izomorfizam.
-    Grafički to ilustriramo na sljedećoj skici:
+
+    Zbog jednostavnijeg i razumljivijeg pregleda grafički ilustriramo terminologiju definiranu u ovoj točki. Grafički je prikazana veza između svih definiranih pojmova.
+    \begin{itemize}
+      \item Strelica može biti monoik ili epik
+      \item ukoliko je monoik i epik, onda je nužno izomorfizam
+      \item Ukoliko je strelica retrakcija i monoik tada je i izomorfizam
+      \item Ukoliko je strelica sekcij i epik tada je i izomorfizam
+      \item Ukoliko je strelica bimorfizam i sekcija ili retrakcija tada je i izomorfizam
+      \item Ukoliko je strelica sekcija i retrakcija tada je izomorfizam
+    \end{itemize}
+    
     \begin{center}
     \begin{tikzpicture}[every node/.style={midway}]
       \matrix[column sep={5em,between origins}, row sep={2em}] at (0,0)
@@ -1004,7 +1096,7 @@
   \end{mcode}
   Vidimo da pomoću \codei{Maybe a}, gdje je \codei{a} bilo koji tip možemo
   konstruirati druge tipove koji mogu imati vrijednost ili \codei{Just a} ili
-  \codei{Nothing}. Npr. \codei{Maybe Integer} može imati vrijednost \codei{Just
+  \codei{Nothing}. Npr.\codei{Maybe Integer} može imati vrijednost \codei{Just
     Integer} ili \codei{Nothing}. Vratimo li se na primjer liste, to znači da naša funkcija
   koja bi vraćala prvi element liste cijelih brojeva ima tip:
   \begin{mcode}
@@ -1093,7 +1185,7 @@
   \section{Kartezijanski zatvorene kategorije}
   U ovom poglavlju definiramo pojam kartezijanski zatvorene kategorija, vrstu kategorije koja ima ekspresivnu moć jednaku tipiziranom lambda računu.  Da bi definirali projam zatvorene kategorije nužno je definirati i pojam eksponenta, kategorijskog analogona funkcijskom prostoru između dva skupa. Nakon definicije kartezijanski zatvorenih kategorija navodimo nekoliko najbitinjih primjera. 
   \begin{definition}
-    Neka je C kategorija koji ima produkt i neka su $Z, Y \in Obj_C$. \textbf{Eksponencijani objekt} je objekt $Z^Y$ koji ima svojstvo $Z^Y \times Y \xrightarrow{apply} Z$ ako za bilo koji objekt $X \in Obj_c$ i morfizam $X \times Y \xrightarrow{g} Z$ postoji jedinstveni morfizam $X \xrightarrow{\lambda g} Z^Y$ t.d.
+    Neka je \category{C} kategorija koji ima produkt i neka su $Z, Y \in Obj_C$. \textbf{Eksponencijani objekt} je objekt $Z^Y$ koji ima svojstvo $Z^Y \times Y \xrightarrow{apply} Z$ ako za bilo koji objekt $X \in Obj_c$ i morfizam $X \times Y \xrightarrow{g} Z$ postoji jedinstveni morfizam $X \xrightarrow{\lambda g} Z^Y$ t.d.
     \begin{center}
       $X \times Y \xrightarrow{\lambda g \times Y} Z^Y \times Y \xrightarrow{apply} Z$ je $g$
     \end{center}
@@ -1110,19 +1202,20 @@
     Za kategoriju C kažemo da je \textbf{kartezijanski zatvorena kategorija}, skračeno \textbf{CCC} (eng. Cartesian closed category), ako vrijedi:
     \begin{itemize}
       \item kategorija \category{C} sadrži finalni objekt,
-      \item za svaki par $A, B \in Obj_C$ postoji Kartezijev produkt $A \times B$ u C, sa projekcijama $\pi_1 : A \times B \to A$ i $\pi_2 : A \times B \to B$
-      \item za svaki par $A, B \in Obj_C$ postoji eksponencijal $B^A$ u C.
+      \item za svaki par $A, B \in Obj_C$ postoji Kartezijev produkt $A \times B$ u \category{C}, sa projekcijama $\pi_1 : A \times B \to A$ i $\pi_2 : A \times B \to B$
+      \item za svaki par $A, B \in Obj_C$ postoji eksponencijal $B^A$ u \category{C}.
     \end{itemize}
   \end{definition}
   Primijetimo da smo i prethodnu tvrdnju mogli iskazati pomoću prethodno definirane kartezijeve kategorije; kartezijeva kategorija C je kartezijanski zatvorena kategorija, ukoliko za svaki par $A, B \in Obj_C$ postoji eksponencijal $B^A$ u C.
 
-  \primjer{Pokazali smo da je \category{Set} kategorija i da je $\emptyset$ finalni objekt za \cateogry{Set}. Postojanje eksponenta i njegove struktura je opisana  u 1.18. Pokažimo sad još da u \category{Set} postoji i kartezijev produkt.
+  \begin{example}
+    Pokazali smo da je \category{Set} kategorija i da je $\emptyset$ finalni objekt za \cateogry{Set}. Postojanje eksponenta i njegove struktura je opisana  u 1.18. Pokažimo sad još da u \category{Set} postoji i kartezijev produkt.
   \begin{itemize}
     \item Za $A, B \in Obj_\category{Set}$, $A \times B = \{ (a, b) | a \in A, b \in B \}$, tj. $A \times B$ je standardni kartezijevski produkt nad skupovima. 
   \end{itemize}
 
   Iz čega zaključujemo da je \category{Set} CCC.
-  }
+  \end{example}
   \begin{definition}
     Parcijalno uređeni skup B zovemo \textbf{Booleanova algebra} ako:
     \begin{itemize}

@@ -82,6 +82,7 @@
 \newtheorem{teorem}{Teorem}[chapter]
 \newtheorem{lema}{Lema}[chapter]
 \newtheorem{example}{Primjer}[chapter]
+\newtheorem{proposition}{Propozicija}[chapter]
 
 
 %
@@ -113,12 +114,10 @@
   PMF - Matemati\v{c}ki odjel
 }
 \newcommand{\ImePrezimeAutora}{Nikola Henezi}
-\newcommand{\NaslovRada}{Curry-Howard-Lambekov izomorfizam}
-\newcommand{\ImePrezimeMentora}{izv. prof. dr. sc. Mladen Vukovi\'c}
-\newcommand{\MjestoDatum}{mjesto, mjesec godina}
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\NaslovRada}{Kartezijanski zatvorene kategorije}
+\newcommand{\ImePrezimeMentora}{prof. dr. sc. Boris Širola \\
+izv. prof. dr. sc. Mladen Vukovi\'c 
+}
 % Pocetak dokumenta
 %
 \begin{document}
@@ -152,10 +151,17 @@
 %
 %\input{chapters/graph_ccc}
 
-\chapter{Osvrt na lambda racun}
+\chapter{Osvrt na lambda račun}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 \input{chapters/lambek}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Veza CCC-a i Lambda računa}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+\input{chapters/ccc_lambda}
+
 
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -174,14 +180,11 @@
 
 
 
+\bibitem{Harold Simmons}
+\textit{An Introduction to Category theory}
 
-\bibitem{Ferguson} T.S. Ferguson:
-\textit{A Course in Large Sample Theory},
-Chapman \& Hall/CRC, London, 1996.
-
-\bibitem{Hajek} J. Hajek:
-\textit{Some Extensions of Wald-Wolfowitz-Noether Theorem},
-Ann. Math. Statistics, Vol. 32, 505-523, 1961.
+\bibitem{Michael Barr} Charles Wells
+\textit{Category Theory for Computing Science},
 
 \bibitem{Harding} E.F. Harding:
 \textit{An Efficient, Minimal-storage Procedure for Calculating
